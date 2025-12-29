@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivansh Singh — 研究者</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --bg-alt: #f2efe9;
+            --text: #2c2c2c;
+            --text-secondary: #5a5a5a;
+            --text-light: #8a8a8a;
+            --accent: #c4463a;
+            --ink: #1a1a1a;
+            --paper: #fffff8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Serif', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 2;
+            font-size: 16px;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Vertical text decoration */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            background: var(--paper);
+            border-right: 1px solid var(--bg-alt);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            writing-mode: vertical-rl;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            writing-mode: vertical-rl;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-kanji {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            letter-spacing: 5px;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 80px;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .hero-kanji {
+            font-size: 5rem;
+            color: var(--bg-alt);
+            margin-bottom: 1rem;
+            letter-spacing: 1rem;
+        }
+
+        .hero-name {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-line {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 0 auto 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            font-weight: 400;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .num {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--ink);
+        }
+
+        .hero-stat .label {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scroll-hint span {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        .scroll-hint .line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .section-kanji {
+            font-size: 3rem;
+            color: var(--bg-alt);
+        }
+
+        .section-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .section-en {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+
+        /* About */
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .about-text p {
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .about-details {
+            border-left: 1px solid var(--bg-alt);
+            padding-left: 2rem;
+        }
+
+        .detail-item {
+            margin-bottom: 2rem;
+        }
+
+        .detail-label {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        /* Experience */
+        .exp-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .exp-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+        }
+
+        .exp-date {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            padding-top: 0.5rem;
+        }
+
+        .exp-content h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .exp-org {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .exp-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .exp-desc li {
+            margin-bottom: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        /* Publications */
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pub-item {
+            display: grid;
+            grid-template-columns: 60px 1fr auto;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--bg-alt);
+            align-items: baseline;
+        }
+
+        .pub-year {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .pub-info h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            line-height: 1.6;
+        }
+
+        .pub-venue {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pub-status {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.3rem 0.6rem;
+            border: 1px solid var(--bg-alt);
+            color: var(--text-light);
+        }
+
+        .pub-status.review {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+        }
+
+        .skill-category h3 {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--bg-alt);
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--bg-alt);
+        }
+
+        /* Awards */
+        .awards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .award-item {
+            display: flex;
+            align-items: baseline;
+            gap: 2rem;
+        }
+
+        .award-year {
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--bg-alt);
+            min-width: 80px;
+        }
+
+        .award-content h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .award-org {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Contact */
+        .contact-content {
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contact-kanji {
+            font-size: 4rem;
+            color: var(--bg-alt);
+            margin-bottom: 2rem;
+        }
+
+        .contact-text {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid var(--bg-alt);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            background: var(--paper);
+        }
+
+        .contact-link .label {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem;
+            border-top: 1px solid var(--bg-alt);
+            margin-left: 80px;
+        }
+
+        footer p {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-light);
+        }
+
+        footer .kanji {
+            font-family: 'Noto Serif', serif;
+            font-size: 1.5rem;
+            color: var(--bg-alt);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            nav {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: 60px;
+                flex-direction: row;
+                border-right: none;
+                border-top: 1px solid var(--bg-alt);
+                padding: 0 1rem;
+            }
+
+            .nav-logo, .nav-kanji {
+                writing-mode: horizontal-tb;
+                display: none;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .nav-links a {
+                writing-mode: horizontal-tb;
+            }
+
+            main {
+                margin-left: 0;
+                margin-bottom: 60px;
+            }
+
+            footer {
+                margin-left: 0;
+                margin-bottom: 60px;
+            }
+
+            section {
+                padding: 4rem 2rem;
+            }
+
+            .hero {
+                padding: 2rem;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-details {
+                border-left: none;
+                border-top: 1px solid var(--bg-alt);
+                padding-left: 0;
+                padding-top: 2rem;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .exp-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .pub-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .pub-status {
+                justify-self: start;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="nav-logo">Singh</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Work</a></li>
+            <li><a href="#publications">Research</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <span class="nav-kanji">研究</span>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <p class="hero-kanji">信頼</p>
+                <h1 class="hero-name">SHIVANSH SINGH</h1>
+                <div class="hero-line"></div>
+                <p class="hero-title">Human-Computer Interaction Researcher</p>
+                <p class="hero-desc">Investigating the delicate balance of trust between humans and intelligent systems at LUT University, Finland.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="num">10+</div>
+                        <div class="label">Publications</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">€500K</div>
+                        <div class="label">Project Lead</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">5</div>
+                        <div class="label">Awards</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-hint">
+                <span>Scroll</span>
+                <div class="line"></div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-header fade-in">
+                <span class="section-kanji">紹介</span>
+                <div class="section-title-group">
+                    <span class="section-en">Introduction</span>
+                    <h2 class="section-title">About</h2>
+                </div>
+            </div>
+            <div class="about-content fade-in">
+                <div class="about-text">
+                    <p>I am a Master's student in Software Engineering at LUT University, Finland, pursuing research at the intersection of human behavior and artificial intelligence. My work explores how trust forms, evolves, and sometimes breaks in our interactions with intelligent systems.</p>
+                    <p>As Head Researcher on the MAISA project—a €500,000 Business Finland initiative—I lead investigations into human-AI collaboration within software engineering contexts. This work combines rigorous experimental methodology with physiological computing techniques to understand the unconscious dimensions of human-machine interaction.</p>
+                    <p>I believe that the future of AI lies not in replacing human judgment, but in augmenting it thoughtfully, ethically, and with deep respect for human autonomy.</p>
+                </div>
+                <div class="about-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Lahti, Finland</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Affiliation</div>
+                        <div class="detail-value">LUT University</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Focus</div>
+                        <div class="detail-value">HCI, Trust, AI Ethics</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Degree</div>
+                        <div class="detail-value">MSc Software Engineering</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="section-header fade-in">
+                <span class="section-kanji">経験</span>
+                <div class="section-title-group">
+                    <span class="section-en">Career</span>
+                    <h2 class="section-title">Experience</h2>
+                </div>
+            </div>
+            <div class="exp-list">
+                <div class="exp-item fade-in">
+                    <div class="exp-date">2025 — Present</div>
+                    <div class="exp-content">
+                        <h3>Head Researcher</h3>
+                        <p class="exp-org">MAISA Project • Business Finland</p>
+                        <ul class="exp-desc">
+                            <li>Leading €500K research within €5.4M Co-Innovation project</li>
+                            <li>Fine-tuning LLMs achieving 90% accuracy</li>
+                            <li>Collaborating with Tietoevry, Bittium, Haltian</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="exp-item fade-in">
+                    <div class="exp-date">2025 — Present</div>
+                    <div class="exp-content">
+                        <h3>Research Assistant</h3>
+                        <p class="exp-org">AI and HCI Behavioural Lab</p>
+                        <ul class="exp-desc">
+                            <li>ML pipelines for EEG & eye-tracking analysis</li>
+                            <li>Trust prediction model development</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="exp-item fade-in">
+                    <div class="exp-date">2025 — Present</div>
+                    <div class="exp-content">
+                        <h3>Teaching Assistant</h3>
+                        <p class="exp-org">Fundamentals of Smart Systems</p>
+                        <ul class="exp-desc">
+                            <li>Guest lectures on AI, ML, Neural Networks</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="exp-item fade-in">
+                    <div class="exp-date">2023 — 2025</div>
+                    <div class="exp-content">
+                        <h3>Research Assistant</h3>
+                        <p class="exp-org">Information Systems Research Group</p>
+                        <ul class="exp-desc">
+                            <li>Longitudinal AI behavioral studies</li>
+                            <li>Trust measurement protocol design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications">
+            <div class="section-header fade-in">
+                <span class="section-kanji">研究</span>
+                <div class="section-title-group">
+                    <span class="section-en">Research</span>
+                    <h2 class="section-title">Publications</h2>
+                </div>
+            </div>
+            <div class="pub-list">
+                <div class="pub-item fade-in">
+                    <span class="pub-year">2026</span>
+                    <div class="pub-info">
+                        <h3>Trust in AI: How Moral Frameworks Shape Users Trust</h3>
+                        <p class="pub-venue">International Journal of Human–Computer Interaction</p>
+                    </div>
+                    <span class="pub-status review">Review</span>
+                </div>
+                <div class="pub-item fade-in">
+                    <span class="pub-year">2026</span>
+                    <div class="pub-info">
+                        <h3>Trust Mental Models in AI Through Human Eyes</h3>
+                        <p class="pub-venue">AI & Society</p>
+                    </div>
+                    <span class="pub-status review">Review</span>
+                </div>
+                <div class="pub-item fade-in">
+                    <span class="pub-year">2026</span>
+                    <div class="pub-info">
+                        <h3>Contextual, Provisional, and Verified: Trust-Control Boundaries</h3>
+                        <p class="pub-venue">HICSS 59</p>
+                    </div>
+                    <span class="pub-status">Accepted</span>
+                </div>
+                <div class="pub-item fade-in">
+                    <span class="pub-year">2026</span>
+                    <div class="pub-info">
+                        <h3>Design Elements for Brand Representation in CAs</h3>
+                        <p class="pub-venue">HICSS 59</p>
+                    </div>
+                    <span class="pub-status">Accepted</span>
+                </div>
+                <div class="pub-item fade-in">
+                    <span class="pub-year">2025</span>
+                    <div class="pub-info">
+                        <h3>Emotional Productivity: AI Impact on Employee Well-Being</h3>
+                        <p class="pub-venue">HICSS 58</p>
+                    </div>
+                    <span class="pub-status">Published</span>
+                </div>
+                <div class="pub-item fade-in">
+                    <span class="pub-year">2024</span>
+                    <div class="pub-info">
+                        <h3>CNN Hybrid for Brain Tumor Segmentation</h3>
+                        <p class="pub-venue">WSEAS Transactions</p>
+                    </div>
+                    <span class="pub-status">Published</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-header fade-in">
+                <span class="section-kanji">技術</span>
+                <div class="section-title-group">
+                    <span class="section-en">Expertise</span>
+                    <h2 class="section-title">Skills</h2>
+                </div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category fade-in">
+                    <h3>Machine Learning</h3>
+                    <ul class="skill-list">
+                        <li>Deep Learning & Neural Networks</li>
+                        <li>Natural Language Processing</li>
+                        <li>TensorFlow & PyTorch</li>
+                        <li>LLM Fine-tuning</li>
+                    </ul>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3>Research Methods</h3>
+                    <ul class="skill-list">
+                        <li>Experimental Design</li>
+                        <li>Bayesian Analysis</li>
+                        <li>Mixed Methods</li>
+                        <li>Longitudinal Studies</li>
+                    </ul>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3>HCI & Physiological</h3>
+                    <ul class="skill-list">
+                        <li>EEG Analysis</li>
+                        <li>Eye-tracking</li>
+                        <li>Unity & VR Development</li>
+                        <li>Behavioral Analytics</li>
+                    </ul>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3>Languages</h3>
+                    <ul class="skill-list">
+                        <li>English — Fluent</li>
+                        <li>Hindi — Native</li>
+                        <li>Chinese — Intermediate</li>
+                        <li>Finnish — Beginner</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="awards">
+            <div class="section-header fade-in">
+                <span class="section-kanji">賞</span>
+                <div class="section-title-group">
+                    <span class="section-en">Recognition</span>
+                    <h2 class="section-title">Awards</h2>
+                </div>
+            </div>
+            <div class="awards-list">
+                <div class="award-item fade-in">
+                    <span class="award-year">2025</span>
+                    <div class="award-content">
+                        <h3>Graduated with Distinction</h3>
+                        <p class="award-org">LUT University</p>
+                    </div>
+                </div>
+                <div class="award-item fade-in">
+                    <span class="award-year">2024</span>
+                    <div class="award-content">
+                        <h3>Top 1% Scholarship</h3>
+                        <p class="award-org">LUT University</p>
+                    </div>
+                </div>
+                <div class="award-item fade-in">
+                    <span class="award-year">2024</span>
+                    <div class="award-content">
+                        <h3>3rd Place — AI Accessibility</h3>
+                        <p class="award-org">AMD AI Hackathon</p>
+                    </div>
+                </div>
+                <div class="award-item fade-in">
+                    <span class="award-year">2023</span>
+                    <div class="award-content">
+                        <h3>1st Place — Automation AI</h3>
+                        <p class="award-org">Lazy GenAI Hackathon</p>
+                    </div>
+                </div>
+                <div class="award-item fade-in">
+                    <span class="award-year">2023</span>
+                    <div class="award-content">
+                        <h3>2nd Place — IoT Solutions</h3>
+                        <p class="award-org">Nokia Hackathon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-header fade-in">
+                <span class="section-kanji">連絡</span>
+                <div class="section-title-group">
+                    <span class="section-en">Connect</span>
+                    <h2 class="section-title">Contact</h2>
+                </div>
+            </div>
+            <div class="contact-content fade-in">
+                <p class="contact-kanji">縁</p>
+                <p class="contact-text">I welcome conversations about research collaboration, AI ethics, or the future of human-machine interaction.</p>
+                <div class="contact-links">
+                    <a href="mailto:shivansh.singh@lut.fi" class="contact-link">
+                        <span class="label">Email</span>
+                        <span>shivansh.singh@lut.fi</span>
+                    </a>
+                    <a href="https://linkedin.com/in/shivanshsingh17" target="_blank" class="contact-link">
+                        <span class="label">LinkedIn</span>
+                        <span>shivanshsingh17</span>
+                    </a>
+                    <a href="https://orcid.org/0009-0004-0661-0608" target="_blank" class="contact-link">
+                        <span class="label">ORCID</span>
+                        <span>0009-0004-0661-0608</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p class="kanji">終</p>
+        <p>© 2025 SHIVANSH SINGH • LAHTI, FINLAND</p>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
