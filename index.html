@@ -7,1740 +7,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #f5f2eb;
-            --bg-dark: #e6e1d6;
-            --text: #2a2a2a;
-            --text-secondary: #555;
-            --text-light: #999;
-            --accent: #c23a2e;
-            --accent-soft: rgba(194, 58, 46, 0.08);
-            --accent-medium: rgba(194, 58, 46, 0.15);
-            --ink: #1a1a1a;
-            --paper: #fdfcf7;
-            --gold: #a08060;
-            --sakura: #ffd7e0;
-            --sakura-dark: #ffb7c5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Cormorant', serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.9;
-            font-size: 18px;
-            cursor: none;
-            overflow-x: hidden;
-        }
-
-        /* ===================== LOADER ===================== */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--ink);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .loader-content {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Enso circle loader */
-        .enso-loader {
-            width: 150px;
-            height: 150px;
-            position: relative;
-            margin-bottom: 3rem;
-        }
-
-        .enso-loader svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-
-        .enso-loader circle {
-            fill: none;
-            stroke: var(--paper);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-dasharray: 400;
-            stroke-dashoffset: 400;
-            animation: drawEnso 2.5s ease-in-out forwards;
-        }
-
-        @keyframes drawEnso {
-            0% { stroke-dashoffset: 400; opacity: 0; }
-            10% { opacity: 1; }
-            100% { stroke-dashoffset: 40; opacity: 1; }
-        }
-
-        .loader-kanji {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 1.5rem;
-            font-weight: 200;
-            color: var(--paper);
-            letter-spacing: 0.5em;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 1s;
-        }
-
-        .loader-subtext {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.6rem;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
-            margin-top: 1rem;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 1.5s;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .loader.loaded {
-            animation: loaderReveal 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-        }
-
-        @keyframes loaderReveal {
-            0% { clip-path: inset(0 0 0 0); }
-            100% { clip-path: inset(0 0 100% 0); }
-        }
-
-        /* ===================== CURSOR ===================== */
-        .cursor {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            opacity: 0;
-            transition: opacity 0.5s, transform 0.2s, width 0.4s, height 0.4s, background 0.3s, border-radius 0.3s;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s, opacity 0.5s, width 0.3s, height 0.3s;
-        }
-
-        .cursor.visible, .cursor-dot.visible {
-            opacity: 1;
-        }
-
-        .cursor.hover {
-            width: 80px;
-            height: 80px;
-            background: var(--accent-soft);
-            border-color: transparent;
-        }
-
-        .cursor-dot.hover {
-            transform: translate(-50%, -50%) scale(0);
-        }
-
-        .cursor.blend {
-            width: 60px;
-            height: 60px;
-            background: white;
-            mix-blend-mode: difference;
-            border: none;
-        }
-
-        /* ===================== SAKURA PETALS ===================== */
-        .sakura-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .sakura {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: linear-gradient(135deg, var(--sakura) 0%, var(--sakura-dark) 100%);
-            border-radius: 150% 0 150% 0;
-            opacity: 0;
-            animation: sakuraFall linear infinite;
-            box-shadow: 0 0 10px rgba(255, 183, 197, 0.3);
-        }
-
-        .sakura::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: inherit;
-            border-radius: inherit;
-            transform: rotate(90deg);
-        }
-
-        @keyframes sakuraFall {
-            0% {
-                transform: translateY(-10vh) translateX(0) rotate(0deg) scale(1);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            90% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(110vh) translateX(100px) rotate(720deg) scale(0.5);
-                opacity: 0;
-            }
-        }
-
-        /* ===================== TEXTURE ===================== */
-        .texture {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            opacity: 0.025;
-            pointer-events: none;
-            z-index: 9998;
-        }
-
-        /* ===================== FLOATING INK PARTICLES ===================== */
-        .ink-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .ink-particle {
-            position: absolute;
-            background: var(--ink);
-            border-radius: 50%;
-            opacity: 0;
-            animation: inkFloat linear infinite;
-        }
-
-        @keyframes inkFloat {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 0.06; }
-            90% { opacity: 0.06; }
-            100% {
-                transform: translateY(-10vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* ===================== NAVIGATION ===================== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 3rem 0;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(253,252,247,0.9), rgba(253,252,247,0.5), transparent);
-        }
-
-        .nav-logo {
-            writing-mode: vertical-rl;
-            font-family: 'Noto Serif JP', serif;
-            font-size: 0.9rem;
-            font-weight: 300;
-            letter-spacing: 6px;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .nav-logo:hover {
-            color: var(--accent);
-            letter-spacing: 8px;
-        }
-
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            writing-mode: vertical-rl;
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            transform: translateX(-50%) scale(0);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .nav-links a:hover::after {
-            transform: translateX(-50%) scale(1);
-        }
-
-        .nav-enso {
-            width: 40px;
-            height: 40px;
-            opacity: 0.15;
-        }
-
-        .nav-enso svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ===================== MAIN ===================== */
-        main {
-            margin-left: 100px;
-            position: relative;
-        }
-
-        /* ===================== HERO ===================== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Animated gradient blobs */
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-        }
-
-        .gradient-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0;
-            animation: blobFloat 20s ease-in-out infinite;
-        }
-
-        .blob-1 {
-            top: -20%;
-            right: -10%;
-            width: 70%;
-            height: 70%;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(255,215,224,0.2) 100%);
-            animation-delay: 0s;
-        }
-
-        .blob-2 {
-            bottom: -20%;
-            left: -15%;
-            width: 60%;
-            height: 60%;
-            background: linear-gradient(135deg, var(--accent-soft) 0%, rgba(160,128,96,0.1) 100%);
-            animation-delay: -7s;
-        }
-
-        .blob-3 {
-            top: 40%;
-            right: 30%;
-            width: 40%;
-            height: 40%;
-            background: linear-gradient(135deg, rgba(255,183,197,0.15) 0%, var(--bg-dark) 100%);
-            animation-delay: -14s;
-        }
-
-        @keyframes blobFloat {
-            0%, 100% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 0.6;
-            }
-            25% {
-                transform: translate(50px, -30px) scale(1.1) rotate(5deg);
-                opacity: 0.4;
-            }
-            50% {
-                transform: translate(-30px, 50px) scale(0.9) rotate(-5deg);
-                opacity: 0.7;
-            }
-            75% {
-                transform: translate(20px, 20px) scale(1.05) rotate(3deg);
-                opacity: 0.5;
-            }
-        }
-
-        /* Brush strokes */
-        .brush-container {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 55%;
-            height: 100%;
-            opacity: 0.05;
-            overflow: visible;
-        }
-
-        .brush-container svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .brush-path {
-            stroke-dasharray: 2000;
-            stroke-dashoffset: 2000;
-            animation: brushDraw 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .brush-path-1 { animation-delay: 2.8s; }
-        .brush-path-2 { animation-delay: 3.2s; }
-        .brush-path-3 { animation-delay: 3.5s; }
-
-        @keyframes brushDraw {
-            to { stroke-dashoffset: 0; }
-        }
-
-        /* Enso circle decoration */
-        .hero-enso {
-            position: absolute;
-            top: 15%;
-            left: 15%;
-            width: 300px;
-            height: 300px;
-            opacity: 0;
-            animation: ensoReveal 2s ease forwards 3s;
-        }
-
-        .hero-enso svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .hero-enso circle {
-            fill: none;
-            stroke: var(--bg-dark);
-            stroke-width: 3;
-            stroke-linecap: round;
-            stroke-dasharray: 800;
-            stroke-dashoffset: 800;
-            animation: drawEnsoHero 3s ease forwards 3.2s;
-        }
-
-        @keyframes ensoReveal {
-            to { opacity: 0.15; }
-        }
-
-        @keyframes drawEnsoHero {
-            to { stroke-dashoffset: 100; }
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 900px;
-            padding: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Kanji with dramatic reveal */
-        .hero-kanji-wrapper {
-            position: relative;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .hero-kanji {
-            font-family: 'Noto Serif JP', serif;
-            font-size: clamp(7rem, 20vw, 14rem);
-            font-weight: 200;
-            color: var(--bg-dark);
-            letter-spacing: 0.6em;
-            line-height: 1;
-            display: inline-block;
-            position: relative;
-        }
-
-        .hero-kanji-char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(100px) rotate(15deg) scale(0.5);
-            animation: kanjiDramaticReveal 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .hero-kanji-char:nth-child(1) { animation-delay: 2.6s; }
-        .hero-kanji-char:nth-child(2) { animation-delay: 2.9s; }
-
-        @keyframes kanjiDramaticReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(100px) rotate(15deg) scale(0.5);
-                filter: blur(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotate(0deg) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        .hero-kanji:hover .hero-kanji-char {
-            color: var(--accent-soft);
-            transition: color 0.6s ease;
-        }
-
-        /* Name with magnetic letters */
-        .hero-name-wrapper {
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            perspective: 1000px;
-        }
-
-        .hero-name {
-            font-family: 'Cormorant', serif;
-            font-size: clamp(1.5rem, 4vw, 3.5rem);
-            font-weight: 300;
-            letter-spacing: 0.35em;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .hero-name .char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(100%) rotateX(-90deg);
-            animation: charFlipIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .hero-name .char:hover {
-            color: var(--accent);
-            transform: translateY(-5px) scale(1.1);
-        }
-
-        @keyframes charFlipIn {
-            to {
-                opacity: 1;
-                transform: translateY(0) rotateX(0deg);
-            }
-        }
-
-        .hero-name .space {
-            width: 0.4em;
-        }
-
-        /* Decorative elements */
-        .hero-ornament {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2.5rem 0;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 4s;
-        }
-
-        .ornament-line {
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .ornament-diamond {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            transform: rotate(45deg);
-            position: relative;
-        }
-
-        .ornament-diamond::before,
-        .ornament-diamond::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            transform: rotate(0deg);
-            opacity: 0.5;
-        }
-
-        .ornament-diamond::before {
-            top: -12px;
-            left: 2px;
-        }
-
-        .ornament-diamond::after {
-            bottom: -12px;
-            left: 2px;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-title-wrapper {
-            overflow: hidden;
-        }
-
-        .hero-title {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 300;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards 4.2s;
-        }
-
-        .hero-desc-wrapper {
-            overflow: hidden;
-            margin: 3rem auto;
-            max-width: 520px;
-        }
-
-        .hero-desc {
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: var(--text-secondary);
-            font-style: italic;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards 4.4s;
-        }
-
-        /* Stats with glow effect */
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 6rem;
-            margin-top: 4rem;
-        }
-
-        .hero-stat {
-            text-align: center;
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-        }
-
-        .hero-stat:nth-child(1) { animation: statReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 4.6s; }
-        .hero-stat:nth-child(2) { animation: statReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 4.8s; }
-        .hero-stat:nth-child(3) { animation: statReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 5s; }
-
-        @keyframes statReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-stat::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-        }
-
-        .hero-stat:hover::before {
-            opacity: 1;
-        }
-
-        .hero-stat::after {
-            content: '';
-            position: absolute;
-            right: -3rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, transparent, var(--bg-dark), transparent);
-        }
-
-        .hero-stat:last-child::after {
-            display: none;
-        }
-
-        .hero-stat .num {
-            font-family: 'Cormorant', serif;
-            font-size: 4rem;
-            font-weight: 300;
-            color: var(--ink);
-            line-height: 1;
-            display: block;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .hero-stat:hover .num {
-            color: var(--accent);
-            transform: scale(1.15) translateY(-5px);
-        }
-
-        .hero-stat .label {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.55rem;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-top: 1rem;
-            display: block;
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 4rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 5.2s;
-        }
-
-        .scroll-text {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.55rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--text-light);
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 60px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scroll-line::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-        }
-
-        .scroll-line::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent), var(--sakura-dark), transparent);
-            animation: scrollFlow 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollFlow {
-            0% { top: -100%; }
-            100% { top: 100%; }
-        }
-
-        /* ===================== SECTIONS ===================== */
-        section {
-            padding: 12rem 6rem;
-            position: relative;
-        }
-
-        .section-inner {
-            max-width: 1050px;
-            margin: 0 auto;
-        }
-
-        /* Floating sakura accent for sections */
-        .section-sakura {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            pointer-events: none;
-            opacity: 0.1;
-        }
-
-        .section-sakura svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Section header */
-        .section-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 3rem;
-            margin-bottom: 5rem;
-            position: relative;
-        }
-
-        .section-kanji {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 7rem;
-            font-weight: 200;
-            color: var(--bg-dark);
-            line-height: 0.85;
-            position: relative;
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .section-kanji::before {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--sakura-dark), transparent);
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .section-kanji::before {
-            width: 120%;
-        }
-
-        .section-kanji:hover {
-            color: var(--accent-soft);
-            transform: translateY(-10px) rotate(-3deg) scale(1.05);
-        }
-
-        .section-title-group {
-            padding-top: 1.5rem;
-        }
-
-        .section-num {
-            font-family: 'Cormorant', serif;
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: all 0.8s ease;
-        }
-
-        .section-num::after {
-            content: '';
-            width: 30px;
-            height: 1px;
-            background: var(--accent);
-        }
-
-        .reveal-active .section-num {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.2s;
-        }
-
-        .section-en {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 400;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
-            display: block;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        .reveal-active .section-en {
-            opacity: 1;
-            transition-delay: 0.3s;
-        }
-
-        .section-title {
-            font-family: 'Cormorant', serif;
-            font-size: 3rem;
-            font-weight: 400;
-            letter-spacing: 5px;
-            overflow: hidden;
-        }
-
-        .section-title span {
-            display: inline-block;
-            transform: translateY(100%);
-            transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .reveal-active .section-title span {
-            transform: translateY(0);
-            transition-delay: 0.4s;
-        }
-
-        /* ===================== ABOUT ===================== */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 6rem;
-        }
-
-        .about-text p {
-            font-size: 1.15rem;
-            margin-bottom: 2rem;
-            text-align: justify;
-            hyphens: auto;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .about-text p:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-        .reveal-active .about-text p:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
-        .reveal-active .about-text p:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
-
-        .about-text p:first-of-type::first-letter {
-            font-size: 6rem;
-            float: left;
-            line-height: 0.7;
-            padding-right: 1.5rem;
-            padding-top: 0.8rem;
-            color: var(--accent);
-            font-weight: 400;
-            text-shadow: 3px 3px 0 var(--sakura);
-        }
-
-        .about-details {
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .about-details::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--accent), var(--sakura-dark), var(--bg-dark), transparent);
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .about-details::before {
-            transform: scaleY(1);
-            transition-delay: 0.4s;
-        }
-
-        .detail-item {
-            margin-bottom: 2.5rem;
-            position: relative;
-            padding-left: 2rem;
-            opacity: 0;
-            transform: translateX(-40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .detail-item:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
-        .reveal-active .detail-item:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.75s; }
-        .reveal-active .detail-item:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.9s; }
-        .reveal-active .detail-item:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 1.05s; }
-
-        .detail-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.7rem;
-            width: 8px;
-            height: 8px;
-            background: linear-gradient(135deg, var(--sakura) 0%, var(--accent) 100%);
-            transform: rotate(45deg);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .detail-item:hover::before {
-            transform: rotate(45deg) scale(1.5);
-            box-shadow: 0 0 15px var(--sakura-dark);
-        }
-
-        .detail-item:hover {
-            transform: translateX(15px);
-        }
-
-        .detail-label {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.55rem;
-            font-weight: 400;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 0.4rem;
-        }
-
-        .detail-value {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--ink);
-        }
-
-        /* ===================== EXPERIENCE ===================== */
-        #experience {
-            background: var(--paper);
-        }
-
-        .exp-item {
-            display: grid;
-            grid-template-columns: 170px 1fr;
-            gap: 3rem;
-            padding: 3.5rem 0;
-            border-bottom: 1px solid var(--bg-dark);
-            position: relative;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .exp-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
-        .reveal-active .exp-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-        .reveal-active .exp-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
-        .reveal-active .exp-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
-
-        .exp-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -1px;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--sakura-dark), transparent);
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .exp-item:hover::before {
-            width: 100%;
-        }
-
-        .exp-item::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 0;
-            background: linear-gradient(90deg, var(--accent-soft), transparent);
-            transition: width 0.6s ease;
-            z-index: -1;
-        }
-
-        .exp-item:hover::after {
-            width: 100%;
-        }
-
-        .exp-item:hover {
-            padding-left: 2rem;
-        }
-
-        .exp-date {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 300;
-            color: var(--text-light);
-            letter-spacing: 2px;
-            padding-top: 0.5rem;
-        }
-
-        .exp-content h3 {
-            font-family: 'Cormorant', serif;
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin-bottom: 0.3rem;
-            color: var(--ink);
-            transition: all 0.4s ease;
-        }
-
-        .exp-item:hover .exp-content h3 {
-            color: var(--accent);
-        }
-
-        .exp-org {
-            font-size: 1rem;
-            color: var(--accent);
-            margin-bottom: 1.2rem;
-            font-style: italic;
-        }
-
-        .exp-desc {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        .exp-desc li {
-            margin-bottom: 0.4rem;
-            margin-left: 1.2rem;
-        }
-
-        /* ===================== PUBLICATIONS ===================== */
-        .pub-item {
-            display: grid;
-            grid-template-columns: 100px 1fr auto;
-            gap: 2.5rem;
-            padding: 2.5rem 0;
-            border-bottom: 1px solid var(--bg-dark);
-            align-items: baseline;
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .pub-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
-        .reveal-active .pub-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
-        .reveal-active .pub-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
-        .reveal-active .pub-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
-        .reveal-active .pub-item:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
-        .reveal-active .pub-item:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
-
-        .pub-item::before {
-            content: '';
-            position: absolute;
-            left: -3rem;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(to bottom, var(--accent), var(--sakura-dark));
-            transform: scaleY(0);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 2px;
-        }
-
-        .pub-item:hover::before {
-            transform: scaleY(1);
-        }
-
-        .pub-item:hover {
-            padding-left: 1.5rem;
-        }
-
-        .pub-year {
-            font-family: 'Cormorant', serif;
-            font-size: 2rem;
-            font-weight: 300;
-            color: var(--text-light);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .pub-item:hover .pub-year {
-            color: var(--accent);
-            transform: scale(1.15);
-        }
-
-        .pub-info h3 {
-            font-family: 'Cormorant', serif;
-            font-size: 1.35rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-            color: var(--ink);
-        }
-
-        .pub-venue {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
-        .pub-status {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.5rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 0.6rem 1.2rem;
-            border: 1px solid var(--bg-dark);
-            color: var(--text-light);
-            transition: all 0.4s ease;
-        }
-
-        .pub-status.review {
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .pub-item:hover .pub-status {
-            background: var(--paper);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-
-        /* ===================== SKILLS ===================== */
-        #skills {
-            background: var(--paper);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 5rem;
-        }
-
-        .skill-category {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .skill-category:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
-        .reveal-active .skill-category:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
-        .reveal-active .skill-category:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
-        .reveal-active .skill-category:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
-
-        .skill-category h3 {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 500;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--bg-dark);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .skill-category h3::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: linear-gradient(135deg, var(--sakura) 0%, var(--accent) 100%);
-            transform: rotate(45deg);
-        }
-
-        .skill-list {
-            list-style: none;
-        }
-
-        .skill-list li {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            padding: 0.8rem 0;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: default;
-        }
-
-        .skill-list li::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: linear-gradient(90deg, var(--accent), var(--sakura-dark), transparent);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .skill-list li:hover {
-            color: var(--ink);
-            padding-left: 1.5rem;
-        }
-
-        .skill-list li:hover::after {
-            width: 100%;
-        }
-
-        /* ===================== AWARDS ===================== */
-        .award-item {
-            display: flex;
-            align-items: baseline;
-            gap: 3.5rem;
-            padding: 2.5rem 0;
-            border-bottom: 1px solid var(--bg-dark);
-            position: relative;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-active .award-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
-        .reveal-active .award-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
-        .reveal-active .award-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
-        .reveal-active .award-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
-        .reveal-active .award-item:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
-
-        .award-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -1px;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--sakura-dark), transparent);
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .award-item:hover::before {
-            width: 100%;
-        }
-
-        .award-item:hover {
-            transform: translateX(20px);
-        }
-
-        .award-year {
-            font-family: 'Cormorant', serif;
-            font-size: 4rem;
-            font-weight: 200;
-            color: var(--bg-dark);
-            min-width: 120px;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .award-item:hover .award-year {
-            color: var(--accent);
-            text-shadow: 3px 3px 0 var(--sakura);
-        }
-
-        .award-content h3 {
-            font-family: 'Cormorant', serif;
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 0.3rem;
-            color: var(--ink);
-        }
-
-        .award-org {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            font-style: italic;
-        }
-
-        /* ===================== CONTACT ===================== */
-        #contact {
-            background: var(--paper);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-        }
-
-        .contact-bg::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, var(--sakura) 0%, var(--accent-soft) 30%, transparent 60%);
-            opacity: 0;
-            transition: opacity 1.5s ease;
-        }
-
-        .reveal-active .contact-bg::before {
-            opacity: 0.15;
-            animation: contactPulse 10s ease-in-out infinite;
-        }
-
-        @keyframes contactPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
-        /* Enso in background */
-        .contact-enso {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .reveal-active .contact-enso {
-            opacity: 0.03;
-        }
-
-        .contact-enso svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .contact-content {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            max-width: 580px;
-            width: 100%;
-        }
-
-        .contact-kanji {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 12rem;
-            font-weight: 200;
-            color: var(--bg-dark);
-            line-height: 1;
-            margin-bottom: 2rem;
-            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: default;
-            opacity: 0;
-            transform: scale(0.5) rotate(10deg);
-        }
-
-        .reveal-active .contact-kanji {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-            transition-delay: 0.2s;
-        }
-
-        .contact-kanji:hover {
-            color: var(--accent-soft);
-            transform: scale(1.1) rotate(-5deg);
-            text-shadow: 5px 5px 0 var(--sakura);
-        }
-
-        .contact-text {
-            color: var(--text-secondary);
-            font-size: 1.25rem;
-            font-style: italic;
-            margin-bottom: 4rem;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .reveal-active .contact-text {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.8s ease;
-            transition-delay: 0.4s;
-        }
-
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .contact-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.6rem 2rem;
-            border: 1px solid var(--bg-dark);
-            text-decoration: none;
-            color: var(--text);
-            position: relative;
-            overflow: hidden;
-            background: var(--paper);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .reveal-active .contact-link:nth-child(1) { opacity: 1; transform: translateY(0); transition: all 0.8s ease; transition-delay: 0.5s; }
-        .reveal-active .contact-link:nth-child(2) { opacity: 1; transform: translateY(0); transition: all 0.8s ease; transition-delay: 0.6s; }
-        .reveal-active .contact-link:nth-child(3) { opacity: 1; transform: translateY(0); transition: all 0.8s ease; transition-delay: 0.7s; }
-
-        .contact-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--sakura-dark));
-            transform: translateX(-100%);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 0;
-        }
-
-        .contact-link:hover::before {
-            transform: translateX(0);
-        }
-
-        .contact-link:hover {
-            border-color: var(--accent);
-        }
-
-        .contact-link .label,
-        .contact-link .value,
-        .contact-link .arrow {
-            position: relative;
-            z-index: 1;
-            transition: color 0.4s ease;
-        }
-
-        .contact-link .label {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.55rem;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-light);
-        }
-
-        .contact-link .value {
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
-
-        .contact-link .arrow {
-            font-size: 1.4rem;
-            transform: translateX(0);
-            transition: transform 0.4s ease, color 0.4s ease;
-        }
-
-        .contact-link:hover .label { color: rgba(255,255,255,0.8); }
-        .contact-link:hover .value { color: white; }
-        .contact-link:hover .arrow {
-            color: white;
-            transform: translateX(10px);
-        }
-
-        /* ===================== FOOTER ===================== */
-        footer {
-            text-align: center;
-            padding: 7rem 4rem;
-            background: var(--bg);
-            position: relative;
-            margin-left: 100px;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), var(--sakura-dark), transparent);
-        }
-
-        .footer-kanji {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 3.5rem;
-            font-weight: 200;
-            color: var(--bg-dark);
-            margin-bottom: 2rem;
-            display: block;
-            transition: all 0.5s ease;
-        }
-
-        footer:hover .footer-kanji {
-            color: var(--accent-soft);
-            text-shadow: 3px 3px 0 var(--sakura);
-        }
-
-        footer p {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 0.65rem;
-            letter-spacing: 4px;
-            color: var(--text-light);
-        }
-
-        /* ===================== RESPONSIVE ===================== */
-        @media (max-width: 1000px) {
-            .cursor, .cursor-dot {
-                display: none;
-            }
-
-            body { cursor: auto; }
-
-            nav {
-                position: fixed;
-                top: auto;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                width: 100%;
-                height: 70px;
-                flex-direction: row;
-                padding: 0 2rem;
-                background: rgba(253, 252, 247, 0.95);
-                backdrop-filter: blur(10px);
-                border-top: 1px solid var(--bg-dark);
-            }
-
-            .nav-logo, .nav-enso { display: none; }
-
-            .nav-links {
-                flex-direction: row;
-                width: 100%;
-                justify-content: space-around;
-            }
-
-            .nav-links a {
-                writing-mode: horizontal-tb;
-            }
-
-            main { margin-left: 0; margin-bottom: 70px; }
-            footer { margin-left: 0; margin-bottom: 70px; }
-
-            section { padding: 6rem 2rem; }
-
-            .hero-stats { flex-wrap: wrap; gap: 2.5rem; }
-            .hero-stat::after { display: none; }
-            .about-content { grid-template-columns: 1fr; gap: 4rem; }
-            .about-details { padding-left: 2rem; }
-            .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
-            .pub-item { grid-template-columns: 1fr; gap: 1rem; }
-            .pub-status { justify-self: start; margin-top: 0.5rem; }
-            .skills-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .section-kanji { font-size: 4.5rem; }
-            .award-item { flex-direction: column; gap: 0.5rem; }
-            .award-year { font-size: 2.5rem; min-width: auto; }
-            .contact-kanji { font-size: 7rem; }
-            .hero-kanji { letter-spacing: 0.3em; }
-            .hero-enso { display: none; }
-            .brush-container { display: none; }
-        }
-
-        /* ===================== SELECTION ===================== */
-        ::selection {
-            background: var(--accent);
-            color: white;
-        }
-    </style>
 </head>
 <body>
-    <!-- LOADER -->
     <div class="loader">
+        <div class="loader-ambient"></div>
+        <div class="loader-ambient loader-ambient-2"></div>
         <div class="loader-content">
-            <div class="enso-loader">
-                <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45"/>
-                </svg>
+            <div class="enso-container">
+                <div class="enso-glow"></div>
+                <div class="enso-loader enso-1"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/></svg></div>
+                <div class="enso-loader enso-2"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/></svg></div>
+                <div class="enso-loader enso-3"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/></svg></div>
+                <div class="particle-burst" id="particle-burst"></div>
             </div>
-            <p class="loader-kanji">信頼</p>
+            <p class="loader-kanji" id="loader-kanji">信頼</p>
             <p class="loader-subtext">Entering</p>
         </div>
+        <div class="loader-progress"><div class="loader-progress-bar"></div></div>
     </div>
-
-    <!-- CURSOR -->
     <div class="cursor"></div>
     <div class="cursor-dot"></div>
-
-    <!-- TEXTURE -->
+    <div id="cursor-trail-container"></div>
     <div class="texture"></div>
-
-    <!-- SAKURA PETALS -->
     <div class="sakura-container" id="sakura-container"></div>
-
-    <!-- INK PARTICLES -->
+    <canvas class="constellation-canvas" id="constellation-canvas"></canvas>
     <div class="ink-particles" id="ink-particles"></div>
-
-    <!-- NAVIGATION -->
+    <div class="mouse-particles" id="mouse-particles"></div>
     <nav>
-        <a href="#" class="nav-logo" data-cursor="hover">Singh</a>
+        <a href="#" class="nav-logo" data-cursor="hover" data-magnetic>Singh</a>
         <ul class="nav-links">
-            <li><a href="#about" data-cursor="hover">About</a></li>
-            <li><a href="#experience" data-cursor="hover">Work</a></li>
-            <li><a href="#publications" data-cursor="hover">Research</a></li>
-            <li><a href="#skills" data-cursor="hover">Skills</a></li>
-            <li><a href="#contact" data-cursor="hover">Contact</a></li>
+            <li><a href="#about" data-cursor="hover" data-magnetic>About</a></li>
+            <li><a href="#experience" data-cursor="hover" data-magnetic>Work</a></li>
+            <li><a href="#publications" data-cursor="hover" data-magnetic>Research</a></li>
+            <li><a href="#skills" data-cursor="hover" data-magnetic>Skills</a></li>
+            <li><a href="#contact" data-cursor="hover" data-magnetic>Contact</a></li>
         </ul>
-        <div class="nav-enso">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="30"/>
-            </svg>
-        </div>
+        <div class="nav-enso"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="30"/></svg></div>
     </nav>
-
-    <!-- MAIN -->
     <main>
-        <!-- HERO -->
         <section class="hero">
             <div class="hero-bg">
                 <div class="gradient-blob blob-1"></div>
@@ -1748,55 +52,27 @@
                 <div class="gradient-blob blob-3"></div>
             </div>
             <div class="brush-container">
-                <svg viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="brush-path brush-path-1" d="M380 30 Q320 150 300 300 Q280 450 220 580 Q160 710 60 780" stroke="#1a1a1a" stroke-width="70" stroke-linecap="round" fill="none"/>
-                    <path class="brush-path brush-path-2" d="M350 80 Q290 180 270 320 Q250 460 190 580 Q130 700 50 760" stroke="#1a1a1a" stroke-width="25" stroke-linecap="round" fill="none"/>
-                    <path class="brush-path brush-path-3" d="M320 150 Q280 250 260 380 Q240 510 180 620" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <svg viewBox="0 0 400 800" fill="none">
+                    <path class="brush-path brush-path-1" d="M380 30 Q320 150 300 300 Q280 450 220 580 Q160 710 60 780" stroke="#1a1a1a" stroke-width="70" stroke-linecap="round"/>
+                    <path class="brush-path brush-path-2" d="M350 80 Q290 180 270 320 Q250 460 190 580 Q130 700 50 760" stroke="#1a1a1a" stroke-width="25" stroke-linecap="round"/>
+                    <path class="brush-path brush-path-3" d="M320 150 Q280 250 260 380 Q240 510 180 620" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
                 </svg>
             </div>
-            <div class="hero-enso">
-                <svg viewBox="0 0 200 200">
-                    <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-                </svg>
-            </div>
+            <div class="hero-enso"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg></div>
             <div class="hero-content">
-                <div class="hero-kanji-wrapper">
-                    <p class="hero-kanji">
-                        <span class="hero-kanji-char">信</span><span class="hero-kanji-char">頼</span>
-                    </p>
-                </div>
-                <div class="hero-name-wrapper">
-                    <h1 class="hero-name" id="hero-name"></h1>
-                </div>
-                <div class="hero-ornament">
-                    <div class="ornament-line"></div>
-                    <div class="ornament-diamond"></div>
-                    <div class="ornament-line"></div>
-                </div>
-                <div class="hero-title-wrapper">
-                    <p class="hero-title">Human-Computer Interaction Researcher</p>
-                </div>
-                <div class="hero-desc-wrapper">
-                    <p class="hero-desc">Investigating the delicate balance of trust between humans and intelligent systems at LUT University, Finland.</p>
-                </div>
-                </div>
+                <div class="hero-kanji-wrapper"><p class="hero-kanji"><span class="hero-kanji-char">信</span><span class="hero-kanji-char">頼</span></p></div>
+                <div class="hero-name-wrapper"><h1 class="hero-name" id="hero-name"></h1></div>
+                <div class="hero-ornament"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+                <div class="hero-title-wrapper"><p class="hero-title">Human-Computer Interaction Researcher</p></div>
+                <div class="hero-desc-wrapper"><p class="hero-desc" id="hero-desc"></p></div>
             </div>
-            <div class="scroll-indicator">
-                <span class="scroll-text"></span>
-                <div class="scroll-line"></div>
-            </div>
+            <div class="scroll-indicator"><span class="scroll-text">Scroll</span><div class="scroll-line"></div></div>
         </section>
-
-        <!-- ABOUT -->
         <section id="about">
             <div class="section-inner">
                 <div class="section-header reveal">
-                    <span class="section-kanji" data-cursor="blend">紹介</span>
-                    <div class="section-title-group">
-                        <span class="section-num">01</span>
-                        <span class="section-en">Introduction</span>
-                        <h2 class="section-title"><span>About</span></h2>
-                    </div>
+                    <span class="section-kanji" data-cursor="hover">紹介</span>
+                    <div class="section-title-group"><span class="section-num">01</span><span class="section-en">Introduction</span><h2 class="section-title"><span class="scramble-text" data-text="About">About</span></h2></div>
                 </div>
                 <div class="about-content reveal">
                     <div class="about-text">
@@ -1805,470 +81,628 @@
                         <p>I believe that the future of AI lies not in replacing human judgment, but in augmenting it thoughtfully, ethically, and with deep respect for human autonomy.</p>
                     </div>
                     <div class="about-details">
-                        <div class="detail-item" data-cursor="hover">
-                            <div class="detail-label">Location</div>
-                            <div class="detail-value">Lahti, Finland</div>
-                        </div>
-                        <div class="detail-item" data-cursor="hover">
-                            <div class="detail-label">Affiliation</div>
-                            <div class="detail-value">LUT University</div>
-                        </div>
-                        <div class="detail-item" data-cursor="hover">
-                            <div class="detail-label">Focus</div>
-                            <div class="detail-value">HCI, Trust, AI Ethics</div>
-                        </div>
-                        <div class="detail-item" data-cursor="hover">
-                            <div class="detail-label">Degree</div>
-                            <div class="detail-value">MSc Software Engineering</div>
-                        </div>
+                        <div class="detail-item" data-cursor="hover"><div class="detail-label">Location</div><div class="detail-value">Lahti, Finland</div></div>
+                        <div class="detail-item" data-cursor="hover"><div class="detail-label">Affiliation</div><div class="detail-value">LUT University</div></div>
+                        <div class="detail-item" data-cursor="hover"><div class="detail-label">Focus</div><div class="detail-value">HCI, Trust, AI Ethics</div></div>
+                        <div class="detail-item" data-cursor="hover"><div class="detail-label">Degree</div><div class="detail-value">MSc Software Engineering</div></div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- EXPERIENCE -->
         <section id="experience">
             <div class="section-inner">
                 <div class="section-header reveal">
-                    <span class="section-kanji" data-cursor="blend">経験</span>
-                    <div class="section-title-group">
-                        <span class="section-num">02</span>
-                        <span class="section-en">Career</span>
-                        <h2 class="section-title"><span>Experience</span></h2>
-                    </div>
+                    <span class="section-kanji" data-cursor="hover">経験</span>
+                    <div class="section-title-group"><span class="section-num">02</span><span class="section-en">Career</span><h2 class="section-title"><span class="scramble-text" data-text="Experience">Experience</span></h2></div>
                 </div>
                 <div class="exp-list reveal">
-                    <div class="exp-item" data-cursor="hover">
-                        <div class="exp-date">2025 — Present</div>
-                        <div class="exp-content">
-                            <h3>Lead Researcher</h3>
-                            <p class="exp-org">MAISA Project • Business Finland</p>
-                            <ul class="exp-desc">
-                                <li>Leading €500K research within €5.4M Co-Innovation project</li>
-                                <li>Fine-tuning LLMs achieving 90% accuracy</li>
-                                <li>Collaborating with Tietoevry, Bittium, Haltian</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="exp-item" data-cursor="hover">
-                        <div class="exp-date">2025 — Present</div>
-                        <div class="exp-content">
-                            <h3>Research Assistant</h3>
-                            <p class="exp-org">AI and HCI Behavioural Lab</p>
-                            <ul class="exp-desc">
-                                <li>ML pipelines for EEG & eye-tracking analysis</li>
-                                <li>Trust prediction model development</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="exp-item" data-cursor="hover">
-                        <div class="exp-date">2025 — Present</div>
-                        <div class="exp-content">
-                            <h3>Teaching Assistant</h3>
-                            <p class="exp-org">Fundamentals of Smart Systems</p>
-                            <ul class="exp-desc">
-                                <li>Guest lectures on AI, ML, Neural Networks</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="exp-item" data-cursor="hover">
-                        <div class="exp-date">2023 — 2025</div>
-                        <div class="exp-content">
-                            <h3>Research Assistant</h3>
-                            <p class="exp-org">Information Systems Research Group</p>
-                            <ul class="exp-desc">
-                                <li>Longitudinal AI behavioral studies</li>
-                                <li>Trust measurement protocol design</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <div class="exp-item" data-cursor="hover"><div class="exp-date">2025 — Present</div><div class="exp-content"><h3>Lead Researcher</h3><p class="exp-org">MAISA Project • Business Finland</p><ul class="exp-desc"><li>Leading €500K research within €5.4M Co-Innovation project</li><li>Fine-tuning LLMs achieving 90% accuracy</li><li>Collaborating with Tietoevry, Bittium, Haltian</li></ul></div></div>
+                    <div class="exp-item" data-cursor="hover"><div class="exp-date">2025 — Present</div><div class="exp-content"><h3>Research Assistant</h3><p class="exp-org">AI and HCI Behavioural Lab</p><ul class="exp-desc"><li>ML pipelines for EEG & eye-tracking analysis</li><li>Trust prediction model development</li></ul></div></div>
+                    <div class="exp-item" data-cursor="hover"><div class="exp-date">2025 — Present</div><div class="exp-content"><h3>Teaching Assistant</h3><p class="exp-org">Fundamentals of Smart Systems</p><ul class="exp-desc"><li>Guest lectures on AI, ML, Neural Networks</li></ul></div></div>
+                    <div class="exp-item" data-cursor="hover"><div class="exp-date">2023 — 2025</div><div class="exp-content"><h3>Research Assistant</h3><p class="exp-org">Information Systems Research Group</p><ul class="exp-desc"><li>Longitudinal AI behavioral studies</li><li>Trust measurement protocol design</li></ul></div></div>
                 </div>
             </div>
         </section>
-
-        <!-- PUBLICATIONS -->
         <section id="publications">
             <div class="section-inner">
                 <div class="section-header reveal">
-                    <span class="section-kanji" data-cursor="blend">研究</span>
-                    <div class="section-title-group">
-                        <span class="section-num">03</span>
-                        <span class="section-en">Research</span>
-                        <h2 class="section-title"><span>Publications</span></h2>
-                    </div>
+                    <span class="section-kanji" data-cursor="hover">研究</span>
+                    <div class="section-title-group"><span class="section-num">03</span><span class="section-en">Research</span><h2 class="section-title"><span class="scramble-text" data-text="Publications">Publications</span></h2></div>
                 </div>
                 <div class="pub-list reveal">
-                    <div class="pub-item" data-cursor="hover">
-                        <span class="pub-year">2026</span>
-                        <div class="pub-info">
-                            <h3>Aligning Explanations with Human Values: Context-Sensitive Trust Calibration</h3>
-                            <p class="pub-venue">Behaviour and Information Systems</p>
-                        </div>
-                        <span class="pub-status review">Review</span>
-                    </div>
-                    <div class="pub-item" data-cursor="hover">
-                        <span class="pub-year">2026</span>
-                        <div class="pub-info">
-                            <h3>Beyond Human Centered Design: A More-than-Human Framework</h3>
-                            <p class="pub-venue">Communications for the Association for Information Systems</p>
-                        </div>
-                        <span class="pub-status review">Review</span>
-                    </div>
-                    <div class="pub-item" data-cursor="hover">
-                        <span class="pub-year">2026</span>
-                        <div class="pub-info">
-                            <h3>Contextual, Provisional, and Verified: Trust-Control Boundaries</h3>
-                            <p class="pub-venue">HICSS 59</p>
-                        </div>
-                        <span class="pub-status">Accepted</span>
-                    </div>
-                    <div class="pub-item" data-cursor="hover">
-                        <span class="pub-year">2026</span>
-                        <div class="pub-info">
-                            <h3>Design Elements for Brand Representation in Conversational Agents</h3>
-                            <p class="pub-venue">HICSS 59</p>
-                        </div>
-                        <span class="pub-status">Accepted</span>
-                    </div>
-                    <div class="pub-item" data-cursor="hover">
-                        <span class="pub-year">2025</span>
-                        <div class="pub-info">
-                            <h3>Emotional Productivity: AI Impact on Employee Well-Being</h3>
-                            <p class="pub-venue">HICSS 58</p>
-                        </div>
-                        <span class="pub-status">Published</span>
-                    </div>
-                    <div class="pub-item" data-cursor="hover">
-                        <span class="pub-year">2024</span>
-                        <div class="pub-info">
-                            <h3>CNN Hybrid for Brain Tumor Segmentation</h3>
-                            <p class="pub-venue">WSEAS Transactions</p>
-                        </div>
-                        <span class="pub-status">Published</span>
-                    </div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Aligning Explanations with Human Values: Context-Sensitive Trust Calibration</h3><p class="pub-venue">Behaviour and Information Systems</p></div><span class="pub-status review">Review</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Beyond Human Centered Design: A More-than-Human Framework</h3><p class="pub-venue">Communications for the Association for Information Systems</p></div><span class="pub-status review">Review</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Contextual, Provisional, and Verified: Trust-Control Boundaries</h3><p class="pub-venue">HICSS 59</p></div><span class="pub-status">Accepted</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Design Elements for Brand Representation in Conversational Agents</h3><p class="pub-venue">HICSS 59</p></div><span class="pub-status">Accepted</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2025</span><div class="pub-info"><h3>Emotional Productivity: AI Impact on Employee Well-Being</h3><p class="pub-venue">HICSS 58</p></div><span class="pub-status">Published</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2024</span><div class="pub-info"><h3>CNN Hybrid for Brain Tumor Segmentation</h3><p class="pub-venue">WSEAS Transactions</p></div><span class="pub-status">Published</span></div>
                 </div>
             </div>
         </section>
-
-        <!-- SKILLS -->
         <section id="skills">
             <div class="section-inner">
                 <div class="section-header reveal">
-                    <span class="section-kanji" data-cursor="blend">技術</span>
-                    <div class="section-title-group">
-                        <span class="section-num">04</span>
-                        <span class="section-en">Expertise</span>
-                        <h2 class="section-title"><span>Skills</span></h2>
-                    </div>
+                    <span class="section-kanji" data-cursor="hover">技術</span>
+                    <div class="section-title-group"><span class="section-num">04</span><span class="section-en">Expertise</span><h2 class="section-title"><span class="scramble-text" data-text="Skills">Skills</span></h2></div>
                 </div>
                 <div class="skills-grid reveal">
-                    <div class="skill-category">
-                        <h3>Machine Learning</h3>
-                        <ul class="skill-list">
-                            <li data-cursor="hover">Deep Learning & Neural Networks</li>
-                            <li data-cursor="hover">Natural Language Processing</li>
-                            <li data-cursor="hover">TensorFlow & PyTorch</li>
-                            <li data-cursor="hover">LLM Fine-tuning</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Research Methods</h3>
-                        <ul class="skill-list">
-                            <li data-cursor="hover">Experimental Design</li>
-                            <li data-cursor="hover">Bayesian Analysis</li>
-                            <li data-cursor="hover">Mixed Methods</li>
-                            <li data-cursor="hover">Longitudinal Studies</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>HCI & Physiological</h3>
-                        <ul class="skill-list">
-                            <li data-cursor="hover">EEG Analysis</li>
-                            <li data-cursor="hover">Eye-tracking</li>
-                            <li data-cursor="hover">Unity & VR Development</li>
-                            <li data-cursor="hover">Behavioral Analytics</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Languages</h3>
-                        <ul class="skill-list">
-                            <li data-cursor="hover">English — Fluent</li>
-                            <li data-cursor="hover">Hindi — Native</li>
-                            <li data-cursor="hover">Chinese — Intermediate</li>
-                            <li data-cursor="hover">Finnish — Beginner</li>
-                        </ul>
-                    </div>
+                    <div class="skill-category"><h3>Machine Learning</h3><ul class="skill-list"><li data-cursor="hover">Deep Learning & Neural Networks</li><li data-cursor="hover">Natural Language Processing</li><li data-cursor="hover">TensorFlow & PyTorch</li><li data-cursor="hover">LLM Fine-tuning</li></ul></div>
+                    <div class="skill-category"><h3>Research Methods</h3><ul class="skill-list"><li data-cursor="hover">Experimental Design</li><li data-cursor="hover">Bayesian Analysis</li><li data-cursor="hover">Mixed Methods</li><li data-cursor="hover">Longitudinal Studies</li></ul></div>
+                    <div class="skill-category"><h3>HCI & Physiological</h3><ul class="skill-list"><li data-cursor="hover">EEG Analysis</li><li data-cursor="hover">Eye-tracking</li><li data-cursor="hover">Unity & VR Development</li><li data-cursor="hover">Behavioral Analytics</li></ul></div>
+                    <div class="skill-category"><h3>Languages</h3><ul class="skill-list"><li data-cursor="hover">English — Fluent</li><li data-cursor="hover">Hindi — Native</li><li data-cursor="hover">Chinese — Intermediate</li><li data-cursor="hover">Finnish — Beginner</li></ul></div>
                 </div>
             </div>
         </section>
-
-        <!-- AWARDS -->
         <section id="awards">
             <div class="section-inner">
                 <div class="section-header reveal">
-                    <span class="section-kanji" data-cursor="blend">賞</span>
-                    <div class="section-title-group">
-                        <span class="section-num">05</span>
-                        <span class="section-en">Recognition</span>
-                        <h2 class="section-title"><span>Awards</span></h2>
-                    </div>
+                    <span class="section-kanji" data-cursor="hover">賞</span>
+                    <div class="section-title-group"><span class="section-num">05</span><span class="section-en">Recognition</span><h2 class="section-title"><span class="scramble-text" data-text="Awards">Awards</span></h2></div>
                 </div>
                 <div class="awards-list reveal">
-                    <div class="award-item" data-cursor="hover">
-                        <span class="award-year">2025</span>
-                        <div class="award-content">
-                            <h3>Graduated with Distinction</h3>
-                            <p class="award-org">LUT University</p>
-                        </div>
-                    </div>
-                    <div class="award-item" data-cursor="hover">
-                        <span class="award-year">2024</span>
-                        <div class="award-content">
-                            <h3>Top 1% Scholarship</h3>
-                            <p class="award-org">LUT University</p>
-                        </div>
-                    </div>
-                    <div class="award-item" data-cursor="hover">
-                        <span class="award-year">2024</span>
-                        <div class="award-content">
-                            <h3>LUT Undergraduate Research Grant Winner</h3>
-                            <p class="award-org">LUT University</p>
-                        </div>
-                    </div>
-                    <div class="award-item" data-cursor="hover">
-                        <span class="award-year">2024</span>
-                        <div class="award-content">
-                            <h3>3rd Place — AI Accessibility</h3>
-                            <p class="award-org">AMD AI Hackathon</p>
-                        </div>
-                    </div>
-                    <div class="award-item" data-cursor="hover">
-                        <span class="award-year">2023</span>
-                        <div class="award-content">
-                            <h3>1st Place — Automation AI</h3>
-                            <p class="award-org">Lazy GenAI Hackathon</p>
-                        </div>
-                    </div>
-                    <div class="award-item" data-cursor="hover">
-                        <span class="award-year">2023</span>
-                        <div class="award-content">
-                            <h3>2nd Place — IoT Solutions</h3>
-                            <p class="award-org">Nokia Hackathon</p>
-                        </div>
-                    </div>
+                    <div class="award-item" data-cursor="hover"><span class="award-year">2025</span><div class="award-content"><h3>Graduated with Distinction</h3><p class="award-org">LUT University</p></div></div>
+                    <div class="award-item" data-cursor="hover"><span class="award-year">2024</span><div class="award-content"><h3>Top 1% Scholarship</h3><p class="award-org">LUT University</p></div></div>
+                    <div class="award-item" data-cursor="hover"><span class="award-year">2024</span><div class="award-content"><h3>LUT Undergraduate Research Grant Winner</h3><p class="award-org">LUT University</p></div></div>
+                    <div class="award-item" data-cursor="hover"><span class="award-year">2024</span><div class="award-content"><h3>3rd Place — AI Accessibility</h3><p class="award-org">AMD AI Hackathon</p></div></div>
+                    <div class="award-item" data-cursor="hover"><span class="award-year">2023</span><div class="award-content"><h3>1st Place — Automation AI</h3><p class="award-org">Lazy GenAI Hackathon</p></div></div>
+                    <div class="award-item" data-cursor="hover"><span class="award-year">2023</span><div class="award-content"><h3>2nd Place — IoT Solutions</h3><p class="award-org">Nokia Hackathon</p></div></div>
                 </div>
             </div>
         </section>
-
-        <!-- CONTACT -->
         <section id="contact">
             <div class="contact-bg"></div>
-            <div class="contact-enso">
-                <svg viewBox="0 0 200 200">
-                    <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="50"/>
-                </svg>
-            </div>
+            <div class="contact-enso"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="50"/></svg></div>
             <div class="section-inner">
                 <div class="contact-content reveal">
-                    <span class="contact-kanji" data-cursor="blend">縁</span>
+                    <span class="contact-kanji" data-cursor="hover">縁</span>
                     <p class="contact-text">I welcome conversations about research collaboration, AI ethics, or the future of human-machine interaction.</p>
                     <div class="contact-links">
-                        <a href="mailto:shivansh.singh@lut.fi" class="contact-link" data-cursor="hover">
-                            <span class="label">Email</span>
-                            <span class="value">shivansh.singh@lut.fi</span>
-                            <span class="arrow">→</span>
-                        </a>
-                        <a href="https://linkedin.com/in/shivanshsingh17" target="_blank" class="contact-link" data-cursor="hover">
-                            <span class="label">LinkedIn</span>
-                            <span class="value">shivanshsingh17</span>
-                            <span class="arrow">→</span>
-                        </a>
-                        <a href="https://orcid.org/0009-0004-0661-0608" target="_blank" class="contact-link" data-cursor="hover">
-                            <span class="label">ORCID</span>
-                            <span class="value">0009-0004-0661-0608</span>
-                            <span class="arrow">→</span>
-                        </a>
+                        <a href="mailto:shivansh.singh@lut.fi" class="contact-link" data-cursor="hover"><span class="label">Email</span><span class="value">shivansh.singh@lut.fi</span><span class="arrow">→</span></a>
+                        <a href="https://linkedin.com/in/shivanshsingh17" target="_blank" class="contact-link" data-cursor="hover"><span class="label">LinkedIn</span><span class="value">shivanshsingh17</span><span class="arrow">→</span></a>
+                        <a href="https://orcid.org/0009-0004-0661-0608" target="_blank" class="contact-link" data-cursor="hover"><span class="label">ORCID</span><span class="value">0009-0004-0661-0608</span><span class="arrow">→</span></a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <span class="footer-kanji">終</span>
-        <p>© 2025 SHIVANSH SINGH • LAHTI, FINLAND</p>
-    </footer>
-
+    <footer><span class="footer-kanji">終</span><p>© 2025 SHIVANSH SINGH • LAHTI, FINLAND</p></footer>
+    <style>
+        :root{--bg:#f5f2eb;--bg-dark:#e6e1d6;--text:#2a2a2a;--text-secondary:#555;--text-light:#999;--accent:#c23a2e;--accent-soft:rgba(194,58,46,0.08);--accent-glow:rgba(194,58,46,0.4);--ink:#1a1a1a;--paper:#fdfcf7;--sakura:#ffd7e0;--sakura-dark:#ffb7c5;--sakura-glow:rgba(255,183,197,0.6)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Cormorant',serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:18px;cursor:none;overflow-x:hidden}
+        .loader{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--ink);z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .loader-ambient{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 60%);opacity:0;animation:ambientPulse 4s ease-in-out infinite .5s}
+        .loader-ambient-2{animation-delay:2s;background:radial-gradient(circle,var(--sakura-glow) 0%,transparent 60%)}
+        @keyframes ambientPulse{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.8)}50%{opacity:.3;transform:translate(-50%,-50%) scale(1.2)}}
+        .loader-content{position:relative;display:flex;flex-direction:column;align-items:center;z-index:10}
+        .enso-container{position:relative;width:200px;height:200px;margin-bottom:3rem}
+        .enso-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.enso-loader svg{transform:rotate(-90deg)}.enso-loader circle{fill:none;stroke-linecap:round;stroke-dasharray:600;stroke-dashoffset:600}
+        .enso-1{width:200px;height:200px}.enso-1 circle{stroke:var(--paper);stroke-width:2;animation:drawEnso1 2.5s ease-in-out forwards}
+        .enso-2{width:160px;height:160px}.enso-2 circle{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:500;stroke-dashoffset:500;animation:drawEnso2 2.5s ease-in-out forwards .3s}
+        .enso-3{width:120px;height:120px}.enso-3 circle{stroke:var(--sakura-dark);stroke-width:1;stroke-dasharray:400;stroke-dashoffset:400;animation:drawEnso3 2.5s ease-in-out forwards .6s}
+        @keyframes drawEnso1{0%{stroke-dashoffset:600;opacity:0}10%{opacity:1}100%{stroke-dashoffset:60;opacity:1}}
+        @keyframes drawEnso2{0%{stroke-dashoffset:500;opacity:0}10%{opacity:.7}100%{stroke-dashoffset:50;opacity:.7}}
+        @keyframes drawEnso3{0%{stroke-dashoffset:400;opacity:0}10%{opacity:.5}100%{stroke-dashoffset:40;opacity:.5}}
+        .enso-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,transparent 40%,var(--accent-glow) 50%,transparent 60%);opacity:0;animation:ensoGlow 2s ease-in-out infinite 2s}
+        @keyframes ensoGlow{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}50%{opacity:.6;transform:translate(-50%,-50%) scale(1.1)}}
+        .particle-burst{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;pointer-events:none}
+        .burst-particle{position:absolute;top:50%;left:50%;width:4px;height:4px;background:var(--paper);border-radius:50%;opacity:0}
+        .loader-kanji{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:200;color:var(--paper);letter-spacing:.5em;opacity:0;animation:fadeIn 1s ease forwards 1s}
+        .loader-kanji .char{display:inline-block}.loader-subtext{font-family:'Noto Sans',sans-serif;font-size:.6rem;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:1rem;opacity:0;animation:fadeIn 1s ease forwards 1.5s}
+        .loader-progress{position:absolute;bottom:15%;left:50%;transform:translateX(-50%);width:200px;height:1px;background:rgba(255,255,255,.1);overflow:hidden}
+        .loader-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--sakura-dark),#a08060);animation:progressFill 2.8s ease-in-out forwards}
+        @keyframes progressFill{to{width:100%}}@keyframes fadeIn{to{opacity:1}}
+        .loader.loaded{animation:loaderReveal 1.2s cubic-bezier(.76,0,.24,1) forwards}
+        @keyframes loaderReveal{0%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 100% 0)}}
+        .cursor{width:40px;height:40px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;opacity:0;transition:all .4s;transform:translate(-50%,-50%)}
+        .cursor-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10001;opacity:0;transform:translate(-50%,-50%)}
+        .cursor.visible,.cursor-dot.visible{opacity:1}.cursor.hover{width:80px;height:80px;background:var(--accent-soft);border-color:transparent}.cursor-dot.hover{transform:translate(-50%,-50%) scale(0)}
+        
+        .cursor-trail{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;background:var(--accent);opacity:.6}
+        .click-ripple{position:fixed;pointer-events:none;z-index:9998;border:2px solid var(--accent);border-radius:50%;animation:rippleExpand .6s ease-out forwards}
+        @keyframes rippleExpand{0%{width:0;height:0;opacity:1}100%{width:150px;height:150px;opacity:0}}
+        .sakura-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .sakura{position:absolute;width:15px;height:15px;background:linear-gradient(135deg,var(--sakura) 0%,var(--sakura-dark) 100%);border-radius:150% 0 150% 0;opacity:0;animation:sakuraFall linear infinite;box-shadow:0 0 10px rgba(255,183,197,.3)}
+        .sakura::before{content:'';position:absolute;width:100%;height:100%;background:inherit;border-radius:inherit;transform:rotate(90deg)}
+        @keyframes sakuraFall{0%{transform:translateY(-10vh) translateX(0) rotate(0deg) scale(1);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(110vh) translateX(100px) rotate(720deg) scale(.5);opacity:0}}
+        .constellation-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+        .texture{position:fixed;top:0;left:0;right:0;bottom:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:9998}
+        .ink-particles,.mouse-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+        .ink-particle{position:absolute;background:var(--ink);border-radius:50%;opacity:0;animation:inkFloat linear infinite}
+        @keyframes inkFloat{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.06}90%{opacity:.06}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+        .mouse-particle{position:absolute;width:6px;height:6px;background:var(--sakura-dark);border-radius:50%;pointer-events:none;opacity:0}
+        nav{position:fixed;top:0;left:0;bottom:0;width:100px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:3rem 0;z-index:100;background:linear-gradient(to bottom,rgba(253,252,247,.9),rgba(253,252,247,.5),transparent)}
+        .nav-logo{writing-mode:vertical-rl;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:300;letter-spacing:6px;color:var(--text-light);text-decoration:none;transition:all .5s}
+        .nav-logo:hover{color:var(--accent);letter-spacing:8px;text-shadow:0 0 20px var(--accent-glow)}
+        .nav-links{display:flex;flex-direction:column;gap:2.5rem;list-style:none}
+        .nav-links a{writing-mode:vertical-rl;font-family:'Noto Sans',sans-serif;font-size:.6rem;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);text-decoration:none;transition:all .4s;display:inline-block;position:relative}
+        .nav-links a::after{content:'';position:absolute;bottom:-15px;left:50%;width:4px;height:4px;background:var(--accent);border-radius:50%;transform:translateX(-50%) scale(0);transition:transform .4s;box-shadow:0 0 10px var(--accent-glow)}
+        .nav-links a:hover{color:var(--accent);text-shadow:0 0 15px var(--accent-glow)}.nav-links a:hover::after{transform:translateX(-50%) scale(1)}
+        .nav-enso{width:40px;height:40px;opacity:.15;transition:all .5s}.nav-enso:hover{opacity:.5;transform:rotate(180deg)}.nav-enso svg{width:100%;height:100%}
+        main{margin-left:100px;position:relative}
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+        .hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden}
+        .gradient-blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0;animation:blobFloat 20s ease-in-out infinite}
+        .blob-1{top:-20%;right:-10%;width:70%;height:70%;background:linear-gradient(135deg,var(--bg-dark) 0%,rgba(255,215,224,.2) 100%)}
+        .blob-2{bottom:-20%;left:-15%;width:60%;height:60%;background:linear-gradient(135deg,var(--accent-soft) 0%,rgba(160,128,96,.1) 100%);animation-delay:-7s}
+        .blob-3{top:40%;right:30%;width:40%;height:40%;background:linear-gradient(135deg,rgba(255,183,197,.15) 0%,var(--bg-dark) 100%);animation-delay:-14s}
+        @keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1);opacity:.6}25%{transform:translate(50px,-30px) scale(1.1);opacity:.4}50%{transform:translate(-30px,50px) scale(.9);opacity:.7}75%{transform:translate(20px,20px) scale(1.05);opacity:.5}}
+        .brush-container{position:absolute;top:0;right:0;width:55%;height:100%;opacity:.05}
+        .brush-container svg{width:100%;height:100%}
+        .brush-path{stroke-dasharray:2000;stroke-dashoffset:2000;animation:brushDraw 3s cubic-bezier(.4,0,.2,1) forwards}
+        .brush-path-1{animation-delay:2.8s}.brush-path-2{animation-delay:3.2s}.brush-path-3{animation-delay:3.5s}
+        @keyframes brushDraw{to{stroke-dashoffset:0}}
+        .hero-enso{position:absolute;top:15%;left:15%;width:300px;height:300px;opacity:0;animation:ensoReveal 2s ease forwards 3s}
+        .hero-enso svg{width:100%;height:100%}
+        .hero-enso circle{fill:none;stroke:var(--bg-dark);stroke-width:3;stroke-linecap:round;stroke-dasharray:800;stroke-dashoffset:800;animation:drawEnsoHero 3s ease forwards 3.2s}
+        @keyframes ensoReveal{to{opacity:.15}}@keyframes drawEnsoHero{to{stroke-dashoffset:100}}
+        .hero-content{text-align:center;max-width:900px;padding:2rem;position:relative;z-index:10}
+        .hero-kanji-wrapper{position:relative;margin-bottom:2rem;overflow:hidden}
+        .hero-kanji{font-family:'Noto Serif JP',serif;font-size:clamp(7rem,20vw,14rem);font-weight:200;color:var(--bg-dark);letter-spacing:.6em;line-height:1;display:inline-block}
+        .hero-kanji-char{display:inline-block;opacity:0;transform:translateY(100px) scale(.5);animation:kanjiReveal 1.5s cubic-bezier(.34,1.56,.64,1) forwards;transition:all .5s}
+        .hero-kanji-char:nth-child(1){animation-delay:2.6s}.hero-kanji-char:nth-child(2){animation-delay:2.9s}
+        @keyframes kanjiReveal{0%{opacity:0;transform:translateY(100px) scale(.5);filter:blur(10px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+        .hero-kanji-char:hover{color:var(--accent-soft);transform:scale(1.1);text-shadow:0 0 60px var(--accent-glow)}
+        .hero-name-wrapper{overflow:hidden;margin-bottom:1.5rem;perspective:1000px}
+        .hero-name{font-family:'Cormorant',serif;font-size:clamp(1.5rem,4vw,3.5rem);font-weight:300;letter-spacing:.35em;display:flex;justify-content:center;flex-wrap:wrap}
+        .hero-name .char{display:inline-block;opacity:0;transform:translateY(100%) rotateX(-90deg);animation:charFlipIn .8s cubic-bezier(.34,1.56,.64,1) forwards;transition:all .3s}
+        .hero-name .char:hover{color:var(--accent);transform:translateY(-5px) scale(1.1);text-shadow:0 0 20px var(--accent-glow)}
+        @keyframes charFlipIn{to{opacity:1;transform:translateY(0) rotateX(0deg)}}.hero-name .space{width:.4em}
+        .hero-ornament{display:flex;align-items:center;justify-content:center;gap:2rem;margin:2.5rem 0;opacity:0;animation:fadeUp 1s ease forwards 4s}
+        .ornament-line{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);position:relative;overflow:hidden}
+        .ornament-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--sakura-dark),transparent);animation:shimmer 3s ease-in-out infinite}
+        @keyframes shimmer{0%{left:-100%}100%{left:100%}}
+        .ornament-diamond{width:8px;height:8px;background:var(--accent);transform:rotate(45deg);animation:diamondPulse 2s ease-in-out infinite}
+        @keyframes diamondPulse{0%,100%{box-shadow:0 0 0 0 var(--accent-glow)}50%{box-shadow:0 0 20px 5px var(--accent-glow)}}
+        .ornament-diamond::before,.ornament-diamond::after{content:'';position:absolute;width:4px;height:4px;background:var(--accent);opacity:.5}
+        .ornament-diamond::before{top:-12px;left:2px}.ornament-diamond::after{bottom:-12px;left:2px}
+        @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+        .hero-title{font-family:'Noto Sans',sans-serif;font-size:.8rem;font-weight:300;letter-spacing:8px;text-transform:uppercase;color:var(--text-secondary);opacity:0;transform:translateY(30px);animation:fadeUp 1s ease forwards 4.2s}
+        .hero-desc-wrapper{overflow:hidden;margin:3rem auto;max-width:520px}
+        .hero-desc{font-size:1.25rem;font-weight:300;color:var(--text-secondary);font-style:italic;opacity:0;transform:translateY(30px);animation:fadeUp 1s ease forwards 4.4s}
+        .typewriter-cursor{display:inline-block;width:2px;height:1.2em;background:var(--accent);margin-left:2px;animation:blink 1s step-end infinite}
+        @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+        .scroll-indicator{position:absolute;bottom:4rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1rem;opacity:0;animation:fadeUp 1s ease forwards 5.2s}
+        .scroll-text{font-family:'Noto Sans',sans-serif;font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--text-light)}
+        .scroll-line{width:1px;height:60px;position:relative;overflow:hidden}
+        .scroll-line::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,var(--accent),transparent)}
+        .scroll-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:linear-gradient(to bottom,var(--accent),var(--sakura-dark),transparent);animation:scrollFlow 2s ease-in-out infinite}
+        @keyframes scrollFlow{0%{top:-100%}100%{top:100%}}
+        section{padding:12rem 6rem;position:relative}.section-inner{max-width:1050px;margin:0 auto}
+        .section-header{display:flex;align-items:flex-start;gap:3rem;margin-bottom:5rem}
+        .section-kanji{font-family:'Noto Serif JP',serif;font-size:7rem;font-weight:200;color:var(--bg-dark);line-height:.85;transition:all .8s;position:relative}
+        .section-kanji::before{content:'';position:absolute;bottom:-20px;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sakura-dark),transparent);transition:width 1s}
+        .reveal-active .section-kanji::before{width:120%}
+        .section-kanji:hover{color:var(--accent-soft);transform:scale(1.05);text-shadow:0 0 60px var(--accent-glow)}
+        .section-title-group{padding-top:1.5rem}
+        .section-num{font-family:'Cormorant',serif;font-size:1rem;font-weight:400;color:var(--accent);margin-bottom:.5rem;display:inline-flex;align-items:center;gap:.75rem;opacity:0;transform:translateX(-30px);transition:all .8s}
+        .section-num::after{content:'';width:30px;height:1px;background:var(--accent);box-shadow:0 0 10px var(--accent-glow)}
+        .reveal-active .section-num{opacity:1;transform:translateX(0);transition-delay:.2s}
+        .section-en{font-family:'Noto Sans',sans-serif;font-size:.6rem;font-weight:400;letter-spacing:5px;text-transform:uppercase;color:var(--text-light);margin-bottom:.5rem;display:block;opacity:0;transition:opacity .8s}
+        .reveal-active .section-en{opacity:1;transition-delay:.3s}
+        .section-title{font-family:'Cormorant',serif;font-size:3rem;font-weight:400;letter-spacing:5px;overflow:hidden}
+        .section-title span{display:inline-block;transform:translateY(100%);transition:transform 1s cubic-bezier(.34,1.56,.64,1)}
+        .reveal-active .section-title span{transform:translateY(0);transition-delay:.4s}
+        .about-content{display:grid;grid-template-columns:1.4fr 1fr;gap:6rem}
+        .about-text p{font-size:1.15rem;margin-bottom:2rem;text-align:justify;hyphens:auto;opacity:0;transform:translateY(50px);transition:all 1s}
+        .reveal-active .about-text p:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.3s}
+        .reveal-active .about-text p:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.5s}
+        .reveal-active .about-text p:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.7s}
+        .about-text p:first-of-type::first-letter{font-size:6rem;float:left;line-height:.7;padding-right:1.5rem;padding-top:.8rem;color:var(--accent);font-weight:400;text-shadow:3px 3px 0 var(--sakura)}
+        .about-details{position:relative;padding-left:3rem}
+        .about-details::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),var(--sakura-dark),var(--bg-dark),transparent);transform:scaleY(0);transform-origin:top;transition:transform 1.5s}
+        .reveal-active .about-details::before{transform:scaleY(1);transition-delay:.4s}
+        .detail-item{margin-bottom:2.5rem;position:relative;padding-left:2rem;opacity:0;transform:translateX(-40px);transition:all .8s}
+        .reveal-active .detail-item:nth-child(1){opacity:1;transform:translateX(0);transition-delay:.6s}
+        .reveal-active .detail-item:nth-child(2){opacity:1;transform:translateX(0);transition-delay:.75s}
+        .reveal-active .detail-item:nth-child(3){opacity:1;transform:translateX(0);transition-delay:.9s}
+        .reveal-active .detail-item:nth-child(4){opacity:1;transform:translateX(0);transition-delay:1.05s}
+        .detail-item::before{content:'';position:absolute;left:0;top:.7rem;width:8px;height:8px;background:linear-gradient(135deg,var(--sakura) 0%,var(--accent) 100%);transform:rotate(45deg);transition:all .5s}
+        .detail-item:hover::before{transform:rotate(45deg) scale(1.5);box-shadow:0 0 15px var(--sakura-dark)}
+        .detail-item:hover{transform:translateX(15px)}
+        .detail-label{font-family:'Noto Sans',sans-serif;font-size:.55rem;font-weight:400;letter-spacing:4px;text-transform:uppercase;color:var(--text-light);margin-bottom:.4rem}
+        .detail-value{font-size:1.25rem;font-weight:500;color:var(--ink)}
+        #experience{background:var(--paper)}
+        .exp-item{display:grid;grid-template-columns:170px 1fr;gap:3rem;padding:3.5rem 2rem;border-bottom:1px solid var(--bg-dark);position:relative;opacity:0;transform:translateY(60px);transition:all .4s;background:var(--paper);border-radius:8px;margin-bottom:1rem}
+        .reveal-active .exp-item:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.15s}
+        .reveal-active .exp-item:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.3s}
+        .reveal-active .exp-item:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.45s}
+        .reveal-active .exp-item:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.6s}
+        .exp-item::before{content:'';position:absolute;left:0;bottom:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sakura-dark),transparent);transition:width .8s;border-radius:0 0 8px 8px}
+        .exp-item:hover::before{width:100%}.exp-item:hover{box-shadow:0 25px 50px -12px rgba(0,0,0,.15),0 0 30px var(--accent-soft)}
+        .exp-date{font-family:'Noto Sans',sans-serif;font-size:.7rem;font-weight:300;color:var(--text-light);letter-spacing:2px;padding-top:.5rem}
+        .exp-content h3{font-family:'Cormorant',serif;font-size:1.8rem;font-weight:500;margin-bottom:.3rem;color:var(--ink);transition:all .4s}
+        .exp-item:hover .exp-content h3{color:var(--accent);text-shadow:0 0 20px var(--accent-glow)}
+        .exp-org{font-size:1rem;color:var(--accent);margin-bottom:1.2rem;font-style:italic}
+        .exp-desc{color:var(--text-secondary);font-size:1rem}.exp-desc li{margin-bottom:.4rem;margin-left:1.2rem}
+        .pub-item{display:grid;grid-template-columns:100px 1fr auto;gap:2.5rem;padding:2.5rem 2rem;border-bottom:1px solid var(--bg-dark);align-items:baseline;position:relative;opacity:0;transform:translateY(50px);transition:all .4s;background:var(--bg);border-radius:8px;margin-bottom:1rem}
+        .reveal-active .pub-item:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.08s}
+        .reveal-active .pub-item:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.16s}
+        .reveal-active .pub-item:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.24s}
+        .reveal-active .pub-item:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.32s}
+        .reveal-active .pub-item:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.4s}
+        .reveal-active .pub-item:nth-child(6){opacity:1;transform:translateY(0);transition-delay:.48s}
+        .pub-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--accent),var(--sakura-dark));transform:scaleY(0);transition:transform .5s;border-radius:8px 0 0 8px}
+        .pub-item:hover::before{transform:scaleY(1)}.pub-item:hover{box-shadow:0 25px 50px -12px rgba(0,0,0,.1),0 0 30px var(--accent-soft)}
+        .pub-year{font-family:'Cormorant',serif;font-size:2rem;font-weight:300;color:var(--text-light);transition:all .5s}
+        .pub-item:hover .pub-year{color:var(--accent);transform:scale(1.15);text-shadow:0 0 20px var(--accent-glow)}
+        .pub-info h3{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:500;margin-bottom:.5rem;line-height:1.4;color:var(--ink)}
+        .pub-venue{font-size:.95rem;color:var(--text-secondary);font-style:italic}
+        .pub-status{font-family:'Noto Sans',sans-serif;font-size:.5rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:.6rem 1.2rem;border:1px solid var(--bg-dark);color:var(--text-light);transition:all .4s}
+        .pub-status.review{color:var(--accent);border-color:var(--accent)}
+        .pub-item:hover .pub-status{background:var(--paper);box-shadow:0 5px 20px rgba(0,0,0,.05),0 0 15px var(--accent-glow)}
+        #skills{background:var(--paper)}.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5rem}
+        .skill-category{opacity:0;transform:translateY(50px);transition:all .8s}
+        .reveal-active .skill-category:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.15s}
+        .reveal-active .skill-category:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.25s}
+        .reveal-active .skill-category:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.35s}
+        .reveal-active .skill-category:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.45s}
+        .skill-category h3{font-family:'Noto Sans',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--text-light);margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--bg-dark);display:flex;align-items:center;gap:1rem}
+        .skill-category h3::before{content:'';width:8px;height:8px;background:linear-gradient(135deg,var(--sakura) 0%,var(--accent) 100%);transform:rotate(45deg);box-shadow:0 0 10px var(--sakura-glow)}
+        .skill-list{list-style:none}
+        .skill-list li{font-size:1.05rem;color:var(--text-secondary);padding:.8rem 0;position:relative;transition:all .4s;cursor:default}
+        .skill-list li::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:linear-gradient(90deg,var(--accent),var(--sakura-dark),transparent);transition:width .5s}
+        .skill-list li:hover{color:var(--ink);padding-left:1.5rem;text-shadow:0 0 20px var(--accent-glow)}.skill-list li:hover::after{width:100%}
+        .award-item{display:flex;align-items:baseline;gap:3.5rem;padding:2.5rem 2rem;border-bottom:1px solid var(--bg-dark);position:relative;opacity:0;transform:translateY(40px);transition:all .4s;background:var(--bg);border-radius:8px;margin-bottom:1rem}
+        .reveal-active .award-item:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.08s}
+        .reveal-active .award-item:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.16s}
+        .reveal-active .award-item:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.24s}
+        .reveal-active .award-item:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.32s}
+        .reveal-active .award-item:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.4s}
+        .reveal-active .award-item:nth-child(6){opacity:1;transform:translateY(0);transition-delay:.48s}
+        .award-item::before{content:'';position:absolute;left:0;bottom:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sakura-dark),transparent);transition:width .6s;border-radius:0 0 8px 8px}
+        .award-item:hover::before{width:100%}.award-item:hover{box-shadow:0 25px 50px -12px rgba(0,0,0,.1),0 0 30px var(--accent-soft)}
+        .award-year{font-family:'Cormorant',serif;font-size:4rem;font-weight:200;color:var(--bg-dark);min-width:120px;transition:all .6s}
+        .award-item:hover .award-year{color:var(--accent);text-shadow:3px 3px 0 var(--sakura),0 0 30px var(--accent-glow)}
+        .award-content h3{font-family:'Cormorant',serif;font-size:1.5rem;font-weight:500;margin-bottom:.3rem;color:var(--ink)}
+        .award-org{font-size:.95rem;color:var(--text-light);font-style:italic}
+        #contact{background:var(--paper);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+        .contact-bg{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none}
+        .contact-bg::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,var(--sakura) 0%,var(--accent-soft) 30%,transparent 60%);opacity:0;transition:opacity 1.5s}
+        .reveal-active .contact-bg::before{opacity:.15;animation:contactPulse 10s ease-in-out infinite}
+        @keyframes contactPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.2)}}
+        .contact-enso{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;opacity:0;transition:opacity 1s}
+        .reveal-active .contact-enso{opacity:.03}.contact-enso svg{width:100%;height:100%}
+        .contact-content{text-align:center;position:relative;z-index:1;max-width:580px;width:100%}
+        .contact-kanji{font-family:'Noto Serif JP',serif;font-size:12rem;font-weight:200;color:var(--bg-dark);line-height:1;margin-bottom:2rem;transition:all 1s;cursor:default;opacity:0;transform:scale(.5)}
+        .reveal-active .contact-kanji{opacity:1;transform:scale(1);transition-delay:.2s}
+        .contact-kanji:hover{color:var(--accent-soft);transform:scale(1.1);text-shadow:5px 5px 0 var(--sakura),0 0 60px var(--accent-glow)}
+        .contact-text{color:var(--text-secondary);font-size:1.25rem;font-style:italic;margin-bottom:4rem;opacity:0;transform:translateY(30px)}
+        .reveal-active .contact-text{opacity:1;transform:translateY(0);transition:all .8s;transition-delay:.4s}
+        .contact-links{display:flex;flex-direction:column;gap:1rem}
+        .contact-link{display:flex;justify-content:space-between;align-items:center;padding:1.6rem 2rem;border:1px solid var(--bg-dark);text-decoration:none;color:var(--text);position:relative;overflow:hidden;background:var(--paper);opacity:0;transform:translateY(30px)}
+        .reveal-active .contact-link:nth-child(1){opacity:1;transform:translateY(0);transition:all .8s;transition-delay:.5s}
+        .reveal-active .contact-link:nth-child(2){opacity:1;transform:translateY(0);transition:all .8s;transition-delay:.6s}
+        .reveal-active .contact-link:nth-child(3){opacity:1;transform:translateY(0);transition:all .8s;transition-delay:.7s}
+        .contact-link::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(90deg,var(--accent),var(--sakura-dark));transform:translateX(-100%);transition:transform .6s;z-index:0}
+        .contact-link:hover::before{transform:translateX(0)}.contact-link:hover{border-color:var(--accent);box-shadow:0 0 30px var(--accent-glow)}
+        .contact-link .label,.contact-link .value,.contact-link .arrow{position:relative;z-index:1;transition:color .4s}
+        .contact-link .label{font-family:'Noto Sans',sans-serif;font-size:.55rem;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--text-light)}
+        .contact-link .value{font-size:1.15rem;font-weight:500}
+        .contact-link .arrow{font-size:1.4rem;transition:transform .4s,color .4s}
+        .contact-link:hover .label{color:rgba(255,255,255,.8)}.contact-link:hover .value{color:white}.contact-link:hover .arrow{color:white;transform:translateX(10px)}
+        footer{text-align:center;padding:7rem 4rem;background:var(--bg);position:relative;margin-left:100px}
+        footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--sakura-dark),transparent)}
+        .footer-kanji{font-family:'Noto Serif JP',serif;font-size:3.5rem;font-weight:200;color:var(--bg-dark);margin-bottom:2rem;display:block;transition:all .5s}
+        footer:hover .footer-kanji{color:var(--accent-soft);text-shadow:3px 3px 0 var(--sakura),0 0 30px var(--accent-glow)}
+        footer p{font-family:'Noto Sans',sans-serif;font-size:.65rem;letter-spacing:4px;color:var(--text-light)}
+        @media(max-width:1200px){section{padding:8rem 4rem}.about-content{gap:4rem}.skills-grid{gap:3rem}}
+        @media(max-width:1000px){.cursor,.cursor-dot,.cursor-trail{display:none}body{cursor:auto}nav{position:fixed;top:auto;bottom:0;left:0;right:0;width:100%;height:70px;flex-direction:row;padding:0 2rem;background:rgba(253,252,247,.95);backdrop-filter:blur(10px);border-top:1px solid var(--bg-dark)}.nav-logo,.nav-enso{display:none}.nav-links{flex-direction:row;width:100%;justify-content:space-around}.nav-links a{writing-mode:horizontal-tb;font-size:.55rem}main{margin-left:0;margin-bottom:70px}footer{margin-left:0;margin-bottom:70px;padding:5rem 2rem}section{padding:6rem 3rem}.about-content{grid-template-columns:1fr;gap:4rem}.about-details{padding-left:2rem}.exp-item{grid-template-columns:1fr;gap:.75rem;padding:2rem 1.5rem}.pub-item{grid-template-columns:1fr;gap:1rem;padding:2rem 1.5rem}.pub-status{justify-self:start;margin-top:.5rem}.skills-grid{grid-template-columns:1fr;gap:3rem}.section-header{flex-direction:column;gap:1.5rem}.section-kanji{font-size:5rem}.section-title{font-size:2.5rem}.award-item{flex-direction:column;gap:.5rem;padding:2rem 1.5rem}.award-year{font-size:2.5rem;min-width:auto}.contact-kanji{font-size:8rem}.hero-kanji{letter-spacing:.3em}.hero-enso,.brush-container{display:none}.hero-title{font-size:.65rem;letter-spacing:4px}.hero-desc{font-size:1.1rem}}
+        @media(max-width:600px){section{padding:4rem 1.5rem}.hero-kanji{font-size:5rem;letter-spacing:.2em}.hero-name{font-size:1.2rem;letter-spacing:.2em}.hero-title{font-size:.5rem;letter-spacing:3px}.hero-desc{font-size:1rem}.hero-ornament{gap:1rem;margin:1.5rem 0}.ornament-line{width:40px}.section-kanji{font-size:4rem}.section-title{font-size:2rem;letter-spacing:3px}.section-num{font-size:.85rem}.about-text p{font-size:1rem}.about-text p:first-of-type::first-letter{font-size:4rem;padding-right:1rem}.detail-value{font-size:1.1rem}.exp-content h3{font-size:1.5rem}.exp-org{font-size:.9rem}.exp-desc{font-size:.9rem}.pub-info h3{font-size:1.15rem}.pub-venue{font-size:.85rem}.pub-year{font-size:1.5rem}.skill-list li{font-size:.95rem}.award-year{font-size:2rem}.award-content h3{font-size:1.25rem}.contact-kanji{font-size:6rem}.contact-text{font-size:1rem;margin-bottom:2rem}.contact-link{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:.5rem}.contact-link .value{font-size:.95rem}.footer-kanji{font-size:2.5rem}footer p{font-size:.55rem;letter-spacing:2px}.scroll-indicator{bottom:2rem}.scroll-line{height:40px}.enso-container{width:150px;height:150px}.enso-1{width:150px;height:150px}.enso-2{width:120px;height:120px}.enso-3{width:90px;height:90px}.loader-kanji{font-size:1.5rem}.loader-progress{width:150px}}
+        @media(max-width:400px){.hero-kanji{font-size:4rem}.hero-name{font-size:1rem}.section-kanji{font-size:3rem}.section-title{font-size:1.75rem}.contact-kanji{font-size:5rem}.nav-links a{font-size:.45rem;letter-spacing:1px}}
+        ::selection{background:var(--accent);color:white}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+    </style>
     <script>
-        // ============ LOADER ============
+        // LOADER TEXT SCRAMBLE
+        const loaderKanji = document.getElementById('loader-kanji');
+        const originalKanji = '信頼';
+        const scrambleChars = '信頼道心夢力光風雲月星花雨火水木金土天地山川';
+        function scrambleLoaderText() {
+            let iterations = 0;
+            const interval = setInterval(() => {
+                loaderKanji.innerHTML = originalKanji.split('').map((char, index) => {
+                    if (iterations > 10 + index * 2) return `<span class="char">${char}</span>`;
+                    return `<span class="char">${scrambleChars[Math.floor(Math.random() * scrambleChars.length)]}</span>`;
+                }).join('');
+                if (++iterations > 15) clearInterval(interval);
+            }, 100);
+        }
+        setTimeout(scrambleLoaderText, 1500);
+
+        // PARTICLE BURST
+        function createParticleBurst() {
+            const container = document.getElementById('particle-burst');
+            const style = document.createElement('style');
+            style.textContent = `@keyframes burstOut{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1);opacity:0}}`;
+            document.head.appendChild(style);
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'burst-particle';
+                const angle = (i / 30) * Math.PI * 2;
+                const distance = 80 + Math.random() * 60;
+                particle.style.cssText = `animation:burstOut ${0.8 + Math.random() * 0.4}s cubic-bezier(.34,1.56,.64,1) forwards;--tx:${Math.cos(angle) * distance}px;--ty:${Math.sin(angle) * distance}px;background:${Math.random() > 0.5 ? 'var(--accent)' : 'var(--sakura-dark)'}`;
+                container.appendChild(particle);
+            }
+        }
+        setTimeout(createParticleBurst, 2500);
+
+        // LOADER
         window.addEventListener('load', () => {
+            window.scrollTo(0, 0);
             setTimeout(() => {
                 document.querySelector('.loader').classList.add('loaded');
                 document.querySelector('.cursor').classList.add('visible');
                 document.querySelector('.cursor-dot').classList.add('visible');
-            }, 3000);
+            }, 3200);
         });
 
-        // ============ SAKURA PETALS ============
+        // SAKURA PETALS
         function createSakura() {
             const container = document.getElementById('sakura-container');
-            const petalCount = 25;
-
-            for (let i = 0; i < petalCount; i++) {
+            for (let i = 0; i < 35; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'sakura';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                petal.style.animationDelay = (Math.random() * 20) + 's';
-                petal.style.width = (Math.random() * 10 + 8) + 'px';
-                petal.style.height = petal.style.width;
-                petal.style.opacity = Math.random() * 0.4 + 0.3;
+                petal.style.cssText = `left:${Math.random() * 100}%;animation-duration:${Math.random() * 10 + 15}s;animation-delay:${Math.random() * 20}s;width:${Math.random() * 10 + 8}px;height:${petal.style.width};opacity:${Math.random() * 0.3 + 0.2}`;
                 container.appendChild(petal);
             }
         }
         createSakura();
 
-        // ============ INK PARTICLES ============
+        // INTERACTIVE CONSTELLATION (EFFECT 1)
+        const canvas = document.getElementById('constellation-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mousePos = { x: 0, y: 0 };
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        function initConstellation() {
+            particles = [];
+            const count = Math.floor((window.innerWidth * window.innerHeight) / 15000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+                    radius: Math.random() * 2 + 1, originalRadius: Math.random() * 2 + 1
+                });
+            }
+        }
+        initConstellation();
+        function drawConstellation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                const distMouse = Math.hypot(p.x - mousePos.x, p.y - mousePos.y);
+                p.radius = distMouse < 200 ? p.originalRadius * (1 + (1 - distMouse / 200) * 2) : p.originalRadius;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(194,58,46,${0.3 + (p.radius - p.originalRadius) * 0.1})`;
+                ctx.fill();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dist = Math.hypot(p.x - particles[j].x, p.y - particles[j].y);
+                    if (dist < 150) {
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(194,58,46,${0.1 * (1 - dist / 150)})`; ctx.lineWidth = 0.5; ctx.stroke();
+                    }
+                }
+                if (distMouse < 200) {
+                    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mousePos.x, mousePos.y);
+                    ctx.strokeStyle = `rgba(255,183,197,${0.4 * (1 - distMouse / 200)})`; ctx.lineWidth = 1; ctx.stroke();
+                }
+            });
+            requestAnimationFrame(drawConstellation);
+        }
+        drawConstellation();
+        document.addEventListener('mousemove', e => { mousePos.x = e.clientX; mousePos.y = e.clientY; });
+
+        // INK PARTICLES
         function createInkParticles() {
             const container = document.getElementById('ink-particles');
-            const particleCount = 15;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'ink-particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = (Math.random() * 4 + 2) + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDuration = (Math.random() * 15 + 20) + 's';
-                particle.style.animationDelay = (Math.random() * 15) + 's';
-                container.appendChild(particle);
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.className = 'ink-particle';
+                p.style.cssText = `left:${Math.random() * 100}%;width:${Math.random() * 4 + 2}px;height:${p.style.width};animation-duration:${Math.random() * 15 + 20}s;animation-delay:${Math.random() * 15}s`;
+                container.appendChild(p);
             }
         }
         createInkParticles();
 
-        // ============ HERO NAME LETTER ANIMATION ============
+        // HERO NAME
         const heroName = document.getElementById('hero-name');
         const name = 'SHIVANSH SINGH';
-        
         setTimeout(() => {
             name.split('').forEach((char, i) => {
                 const span = document.createElement('span');
-                if (char === ' ') {
-                    span.className = 'space';
-                } else {
-                    span.className = 'char';
-                    span.textContent = char;
-                    span.style.animationDelay = `${3.3 + i * 0.08}s`;
-                }
+                if (char === ' ') span.className = 'space';
+                else { span.className = 'char'; span.textContent = char; span.style.animationDelay = `${3.5 + i * 0.08}s`; }
                 heroName.appendChild(span);
             });
         }, 100);
 
-        // ============ CUSTOM CURSOR ============
+        // TYPEWRITER (EFFECT 2)
+        const heroDesc = document.getElementById('hero-desc');
+        const descText = "Investigating the delicate balance of trust between humans and intelligent systems at LUT University, Finland.";
+        let descIndex = 0;
+        function typeWriter() {
+            if (descIndex < descText.length) {
+                heroDesc.innerHTML = descText.substring(0, descIndex + 1) + '<span class="typewriter-cursor"></span>';
+                descIndex++;
+                setTimeout(typeWriter, 30);
+            } else heroDesc.innerHTML = descText;
+        }
+        setTimeout(typeWriter, 4600);
+
+        // CURSOR
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
-        
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
+        let cursorMouseX = 0, cursorMouseY = 0, cursorX = 0, cursorY = 0;
+        document.addEventListener('mousemove', e => {
+            cursorMouseX = e.clientX; cursorMouseY = e.clientY;
+            cursorDot.style.left = cursorMouseX + 'px'; cursorDot.style.top = cursorMouseY + 'px';
         });
-
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
+            cursorX += (cursorMouseX - cursorX) * 0.1; cursorY += (cursorMouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
 
-        // Hover effects
+        // CURSOR TRAIL
+        const trailContainer = document.getElementById('cursor-trail-container');
+        const trails = [];
+        for (let i = 0; i < 12; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.cssText = `width:${8 - i * 0.5}px;height:${8 - i * 0.5}px`;
+            trailContainer.appendChild(trail);
+            trails.push({ el: trail, x: 0, y: 0 });
+        }
+        let trailMouseX = 0, trailMouseY = 0;
+        document.addEventListener('mousemove', e => { trailMouseX = e.clientX; trailMouseY = e.clientY; });
+        function animateTrail() {
+            let x = trailMouseX, y = trailMouseY;
+            trails.forEach((trail, i) => {
+                trail.x += (x - trail.x) * (0.3 - i * 0.02); trail.y += (y - trail.y) * (0.3 - i * 0.02);
+                trail.el.style.cssText += `;left:${trail.x}px;top:${trail.y}px;opacity:${(1 - i / 12) * 0.5}`;
+                x = trail.x; y = trail.y;
+            });
+            requestAnimationFrame(animateTrail);
+        }
+        animateTrail();
+
+        // CLICK RIPPLE
+        document.addEventListener('click', e => {
+            const ripple = document.createElement('div');
+            ripple.className = 'click-ripple';
+            ripple.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;transform:translate(-50%,-50%)`;
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // HOVER EFFECTS
         document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('hover');
-                cursorDot.classList.add('hover');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('hover');
-                cursorDot.classList.remove('hover');
-            });
+            el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); cursorDot.classList.add('hover'); });
+            el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); cursorDot.classList.remove('hover'); });
         });
 
-        document.querySelectorAll('[data-cursor="blend"]').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('blend');
-                cursorDot.classList.add('hover');
+        // MAGNETIC NAV
+        document.querySelectorAll('[data-magnetic]').forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
             });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('blend');
-                cursorDot.classList.remove('hover');
-            });
+            el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0,0)'; });
         });
 
-        // ============ SCROLL REVEAL ============
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        const revealObserver = new IntersectionObserver((entries) => {
+        // MOUSE PARTICLES
+        const mouseParticlesContainer = document.getElementById('mouse-particles');
+        const mouseParticles = [];
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.className = 'mouse-particle';
+            mouseParticlesContainer.appendChild(p);
+            mouseParticles.push({ el: p, x: 0, y: 0, vx: 0, vy: 0, life: 0 });
+        }
+        let lastMouseX = 0, lastMouseY = 0, particleIndex = 0;
+        document.addEventListener('mousemove', e => {
+            const dx = e.clientX - lastMouseX, dy = e.clientY - lastMouseY;
+            if (Math.sqrt(dx * dx + dy * dy) > 5) {
+                const p = mouseParticles[particleIndex];
+                p.x = e.clientX; p.y = e.clientY;
+                p.vx = (Math.random() - 0.5) * 3; p.vy = (Math.random() - 0.5) * 3;
+                p.life = 1;
+                p.el.style.background = Math.random() > 0.5 ? 'var(--sakura-dark)' : 'var(--accent)';
+                particleIndex = (particleIndex + 1) % 50;
+            }
+            lastMouseX = e.clientX; lastMouseY = e.clientY;
+        });
+        function animateMouseParticles() {
+            mouseParticles.forEach(p => {
+                if (p.life > 0) {
+                    p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+                    p.el.style.cssText = `left:${p.x}px;top:${p.y}px;opacity:${p.life};transform:translate(-50%,-50%) scale(${p.life})`;
+                }
+            });
+            requestAnimationFrame(animateMouseParticles);
+        }
+        animateMouseParticles();
+
+        // TEXT SCRAMBLE
+        function scrambleText(el) {
+            const original = el.getAttribute('data-text') || el.textContent;
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let iterations = 0;
+            const interval = setInterval(() => {
+                el.textContent = original.split('').map((c, i) => i < iterations ? original[i] : chars[Math.floor(Math.random() * chars.length)]).join('');
+                iterations += 1/3;
+                if (iterations >= original.length) { clearInterval(interval); el.textContent = original; }
+            }, 30);
+        }
+
+        // SCROLL REVEAL
+        const revealObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('reveal-active');
+                    const scrambleEl = entry.target.querySelector('.scramble-text');
+                    if (scrambleEl && !scrambleEl.dataset.scrambled) {
+                        scrambleEl.dataset.scrambled = 'true';
+                        setTimeout(() => scrambleText(scrambleEl), 400);
+                    }
+                } else {
+                    entry.target.classList.remove('reveal-active');
+                    const scrambleEl = entry.target.querySelector('.scramble-text');
+                    if (scrambleEl) scrambleEl.dataset.scrambled = '';
                 }
             });
-        }, {
-            threshold: 0.12,
-            rootMargin: '0px 0px -100px 0px'
-        });
+        }, { threshold: 0.12, rootMargin: '0px 0px -100px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // ============ SMOOTH SCROLL ============
+        // SMOOTH SCROLL
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
-        // ============ PARALLAX ============
+        // PARALLAX
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const heroContent = document.querySelector('.hero-content');
             const heroEnso = document.querySelector('.hero-enso');
-            
             if (scrolled < window.innerHeight) {
                 const progress = scrolled / window.innerHeight;
                 heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
                 heroContent.style.opacity = 1 - progress * 1.2;
-                
-                if (heroEnso) {
-                    heroEnso.style.transform = `translate(-50%, -50%) rotate(${scrolled * 0.05}deg) scale(${1 + progress * 0.2})`;
-                }
+                if (heroEnso) heroEnso.style.transform = `translate(-50%,-50%) rotate(${scrolled * 0.05}deg) scale(${1 + progress * 0.2})`;
             }
         });
 
-        // ============ MAGNETIC LETTERS ON HOVER ============
+        // MAGNETIC LETTERS
         document.querySelectorAll('.hero-name .char').forEach(char => {
-            char.addEventListener('mousemove', (e) => {
+            char.addEventListener('mousemove', e => {
                 const rect = char.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                char.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                const x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
+                char.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
             });
-            char.addEventListener('mouseleave', () => {
-                char.style.transform = '';
+            char.addEventListener('mouseleave', () => { char.style.transform = ''; });
+        });
+
+        // KANJI RIPPLE
+        const soundStyle = document.createElement('style');
+        soundStyle.textContent = `@keyframes soundRipple{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(10);opacity:0}}`;
+        document.head.appendChild(soundStyle);
+        document.querySelectorAll('.hero-kanji-char').forEach(char => {
+            char.addEventListener('mouseenter', () => {
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `position:fixed;left:${char.getBoundingClientRect().left + char.offsetWidth/2}px;top:${char.getBoundingClientRect().top + char.offsetHeight/2}px;width:10px;height:10px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;animation:soundRipple .8s ease-out forwards;z-index:1000`;
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 800);
             });
         });
     </script>
