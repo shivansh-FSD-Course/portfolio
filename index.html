@@ -9,6 +9,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- ACCESSIBILITY TOGGLE -->
+    <button class="a11y-toggle" id="a11y-toggle" aria-label="Toggle simplified view" title="Toggle simplified view for reduced motion and visual effects">
+        <span class="a11y-icon-default">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+        </span>
+        <span class="a11y-icon-simplified">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+        </span>
+        <span class="a11y-label">Simplified</span>
+    </button>
+
     <div class="loader">
         <div class="loader-ambient"></div>
         <div class="loader-ambient loader-ambient-2"></div>
@@ -111,11 +128,11 @@
                 </div>
                 <div class="pub-list reveal">
                     <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Internal User Representations in LLMs: From Model Internals to Felt Understanding</h3><p class="pub-venue">Are people's feelings of being understood grounded in measurable internal user representations inside the LLM, and if so, where and how do those representations behave during conversation?: Master's Thesis</p></div><span class="pub-status review">Ongoing</span></div>
-                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Aligning Explanations with Human Values: Context-Sensitive Trust Calibration</h3><p class="pub-venue">When do AI explanations actually calibrate trust, and how does the match between an AI’s reasoning style (utilitarian/deontological/virtue) and the decision context (medical/corporate/environmental/everyday) shape trust + agreement?: Behaviour and Information Systems</p></div><span class="pub-status review">Review</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Aligning Explanations with Human Values: Context-Sensitive Trust Calibration</h3><p class="pub-venue">When do AI explanations actually calibrate trust, and how does the match between an AI's reasoning style (utilitarian/deontological/virtue) and the decision context (medical/corporate/environmental/everyday) shape trust + agreement?: Behaviour and Information Systems</p></div><span class="pub-status review">Review</span></div>
                     <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Beyond Human Centered Design: A More-than-Human Framework</h3><p class="pub-venue">What dimensions can operationalize a more-than-human IS design framework that treats ecosystems, non-human actors, and distributed agency as first-class stakeholders rather than background context?: Journal of the Association for Information Systems</p></div><span class="pub-status review">Review</span></div>
-                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Contextual, Provisional, and Verified: Trust-Control Boundaries</h3><p class="pub-venue">What concrete behaviors do professionals use to renegotiate trust–control boundaries with AI moment-by-moment (e.g., provisional delegation, switching, verification loops, evolving mental models), and why is “feeling in control” a prerequisite for delegating control?: HICSS 59</p></div><span class="pub-status">Published</span></div>
-                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Design Elements for Brand Representation in Conversational Agents</h3><p class="pub-venue">What design choices (across personality, role, dialogue, features, etc.) should brands consider so a conversational agent reliably functions as a “brand ambassador” rather than a generic assistant?: HICSS 59</p></div><span class="pub-status">Published</span></div>
-                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2025</span><div class="pub-info"><h3>Emotional Productivity: AI Impact on Employee Well-Being</h3><p class="pub-venue">How do people’s emotional responses during workplace AI interactions (even “negative” ones like stress/sadness) predict productivity outcomes, and what ethical risks emerge from emotion-shaping AI at work?: HICSS 58</p></div><span class="pub-status">Published</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Contextual, Provisional, and Verified: Trust-Control Boundaries</h3><p class="pub-venue">What concrete behaviors do professionals use to renegotiate trust–control boundaries with AI moment-by-moment (e.g., provisional delegation, switching, verification loops, evolving mental models), and why is "feeling in control" a prerequisite for delegating control?: HICSS 59</p></div><span class="pub-status">Published</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2026</span><div class="pub-info"><h3>Design Elements for Brand Representation in Conversational Agents</h3><p class="pub-venue">What design choices (across personality, role, dialogue, features, etc.) should brands consider so a conversational agent reliably functions as a "brand ambassador" rather than a generic assistant?: HICSS 59</p></div><span class="pub-status">Published</span></div>
+                    <div class="pub-item" data-cursor="hover"><span class="pub-year">2025</span><div class="pub-info"><h3>Emotional Productivity: AI Impact on Employee Well-Being</h3><p class="pub-venue">How do people's emotional responses during workplace AI interactions (even "negative" ones like stress/sadness) predict productivity outcomes, and what ethical risks emerge from emotion-shaping AI at work?: HICSS 58</p></div><span class="pub-status">Published</span></div>
                     <div class="pub-item" data-cursor="hover"><span class="pub-year">2025</span><div class="pub-info"><h3>Deep Learning Based Electricity Price Prediction in Finnish Energy Market</h3><p class="pub-venue">Can bidirectional sequence models (BLSTM) meaningfully outperform classical statistical methods in predicting short-term electricity prices under extreme volatility in the Finnish energy market, and where do those gains come from?: Bachelor's Thesis </p></div><span class="pub-status">Published</span></div>
                     <div class="pub-item" data-cursor="hover"><span class="pub-year">2024</span><div class="pub-info"><h3>CNN Hybrid for Brain Tumor Segmentation</h3><p class="pub-venue">Can a hybrid CNN + fuzzy c-means clustering pipeline deliver more accurate, fully automated brain-tumor segmentation on multimodal MRI despite varied image dimensions and noisy boundaries?: WSEAS Transactions</p></div><span class="pub-status">Published</span></div>
                     
@@ -172,6 +189,232 @@
     <style>
         :root{--bg:#f5f2eb;--bg-dark:#e6e1d6;--text:#2a2a2a;--text-secondary:#555;--text-light:#999;--accent:#c23a2e;--accent-soft:rgba(194,58,46,0.08);--accent-glow:rgba(194,58,46,0.4);--ink:#1a1a1a;--paper:#fdfcf7;--sakura:#ffd7e0;--sakura-dark:#ffb7c5;--sakura-glow:rgba(255,183,197,0.6)}
         *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Cormorant',serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:18px;cursor:none;overflow-x:hidden}
+        
+        /* ========================================
+           ACCESSIBILITY TOGGLE BUTTON
+           ======================================== */
+        .a11y-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--paper);
+            border: 1px solid var(--bg-dark);
+            border-radius: 2rem;
+            cursor: pointer;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .a11y-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 4px 20px rgba(194,58,46,0.15);
+        }
+        .a11y-toggle:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .a11y-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+        .a11y-icon-simplified { display: none; }
+        .a11y-toggle[aria-pressed="true"] .a11y-icon-default { display: none; }
+        .a11y-toggle[aria-pressed="true"] .a11y-icon-simplified { display: block; }
+        .a11y-toggle[aria-pressed="true"] {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        /* ========================================
+           SIMPLIFIED VIEW STYLES
+           ======================================== */
+        body.simplified {
+            cursor: auto !important;
+        }
+        
+        /* Hide all decorative/animated elements */
+        body.simplified .loader,
+        body.simplified .cursor,
+        body.simplified .cursor-dot,
+        body.simplified #cursor-trail-container,
+        body.simplified .sakura-container,
+        body.simplified .constellation-canvas,
+        body.simplified .ink-particles,
+        body.simplified .mouse-particles,
+        body.simplified .texture,
+        body.simplified .hero-bg,
+        body.simplified .brush-container,
+        body.simplified .hero-enso,
+        body.simplified .contact-enso,
+        body.simplified .contact-bg,
+        body.simplified .gradient-blob,
+        body.simplified .enso-glow,
+        body.simplified .nav-enso,
+        body.simplified .hero-ornament,
+        body.simplified .scroll-indicator {
+            display: none !important;
+        }
+        
+        /* Disable ALL animations */
+        body.simplified *,
+        body.simplified *::before,
+        body.simplified *::after {
+            animation: none !important;
+            animation-delay: 0s !important;
+            transition: none !important;
+        }
+        
+        /* Make everything visible immediately */
+        body.simplified .hero-kanji-char,
+        body.simplified .hero-name .char,
+        body.simplified .hero-title,
+        body.simplified .hero-desc,
+        body.simplified .section-num,
+        body.simplified .section-en,
+        body.simplified .section-title span,
+        body.simplified .about-text p,
+        body.simplified .detail-item,
+        body.simplified .exp-item,
+        body.simplified .pub-item,
+        body.simplified .skill-category,
+        body.simplified .award-item,
+        body.simplified .contact-kanji,
+        body.simplified .contact-text,
+        body.simplified .contact-link,
+        body.simplified .about-details::before {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        
+        /* Simplify backgrounds */
+        body.simplified {
+            background: #ffffff;
+        }
+        body.simplified section,
+        body.simplified #experience,
+        body.simplified #skills,
+        body.simplified #contact {
+            background: #ffffff !important;
+        }
+        body.simplified .hero {
+            background: #fafafa;
+        }
+        
+        /* Improve text contrast */
+        body.simplified .section-kanji,
+        body.simplified .hero-kanji,
+        body.simplified .contact-kanji,
+        body.simplified .footer-kanji,
+        body.simplified .award-year {
+            color: var(--bg-dark) !important;
+        }
+        
+        /* Remove hover effects that cause motion */
+        body.simplified .section-kanji:hover,
+        body.simplified .hero-kanji-char:hover,
+        body.simplified .contact-kanji:hover,
+        body.simplified .detail-item:hover,
+        body.simplified .exp-item:hover,
+        body.simplified .pub-item:hover,
+        body.simplified .award-item:hover,
+        body.simplified .skill-list li:hover,
+        body.simplified .nav-links a:hover,
+        body.simplified .nav-logo:hover,
+        body.simplified .contact-link:hover {
+            transform: none !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Keep functional hover states but simplify */
+        body.simplified a:hover,
+        body.simplified button:hover {
+            opacity: 0.8;
+        }
+        
+        /* Remove pseudo-element animations */
+        body.simplified .exp-item::before,
+        body.simplified .pub-item::before,
+        body.simplified .award-item::before,
+        body.simplified .skill-list li::after,
+        body.simplified .section-kanji::before,
+        body.simplified .contact-link::before,
+        body.simplified .ornament-line::after {
+            display: none !important;
+        }
+        
+        /* Simplified focus states for keyboard navigation */
+        body.simplified a:focus,
+        body.simplified button:focus {
+            outline: 2px solid var(--accent) !important;
+            outline-offset: 2px !important;
+        }
+        
+        /* Ensure readable line heights */
+        body.simplified p,
+        body.simplified li {
+            line-height: 1.8;
+        }
+        
+        /* Remove decorative first-letter styling */
+        body.simplified .about-text p:first-of-type::first-letter {
+            font-size: inherit;
+            float: none;
+            padding: 0;
+            color: inherit;
+            text-shadow: none;
+        }
+        
+        /* Simplified nav */
+        body.simplified nav {
+            background: rgba(255,255,255,0.95);
+            border-right: 1px solid var(--bg-dark);
+        }
+        
+        /* Show static hero name immediately */
+        body.simplified .hero-name {
+            opacity: 1 !important;
+        }
+        
+        /* Static hero description */
+        body.simplified .hero-desc {
+            opacity: 1 !important;
+        }
+        body.simplified .typewriter-cursor {
+            display: none !important;
+        }
+        
+        /* Mobile adjustments for toggle */
+        @media (max-width: 1000px) {
+            .a11y-toggle {
+                top: auto;
+                bottom: 80px;
+                right: 1rem;
+            }
+            .a11y-label {
+                display: none;
+            }
+            .a11y-toggle {
+                padding: 0.8rem;
+                border-radius: 50%;
+            }
+        }
+        
+        /* ========================================
+           ORIGINAL STYLES (unchanged)
+           ======================================== */
         .loader{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--ink);z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden}
         .loader-ambient{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 60%);opacity:0;animation:ambientPulse 4s ease-in-out infinite .5s}
         .loader-ambient-2{animation-delay:2s;background:radial-gradient(circle,var(--sakura-glow) 0%,transparent 60%)}
@@ -398,316 +641,464 @@
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
     </style>
     <script>
-        // LOADER TEXT SCRAMBLE
-        const loaderKanji = document.getElementById('loader-kanji');
-        const originalKanji = '信頼';
-        const scrambleChars = '信頼道心夢力光風雲月星花雨火水木金土天地山川';
-        function scrambleLoaderText() {
-            let iterations = 0;
-            const interval = setInterval(() => {
-                loaderKanji.innerHTML = originalKanji.split('').map((char, index) => {
-                    if (iterations > 10 + index * 2) return `<span class="char">${char}</span>`;
-                    return `<span class="char">${scrambleChars[Math.floor(Math.random() * scrambleChars.length)]}</span>`;
-                }).join('');
-                if (++iterations > 15) clearInterval(interval);
-            }, 100);
-        }
-        setTimeout(scrambleLoaderText, 1500);
-
-        // PARTICLE BURST
-        function createParticleBurst() {
-            const container = document.getElementById('particle-burst');
-            const style = document.createElement('style');
-            style.textContent = `@keyframes burstOut{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1);opacity:0}}`;
-            document.head.appendChild(style);
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'burst-particle';
-                const angle = (i / 30) * Math.PI * 2;
-                const distance = 80 + Math.random() * 60;
-                particle.style.cssText = `animation:burstOut ${0.8 + Math.random() * 0.4}s cubic-bezier(.34,1.56,.64,1) forwards;--tx:${Math.cos(angle) * distance}px;--ty:${Math.sin(angle) * distance}px;background:${Math.random() > 0.5 ? 'var(--accent)' : 'var(--sakura-dark)'}`;
-                container.appendChild(particle);
+        // ========================================
+        // ACCESSIBILITY TOGGLE FUNCTIONALITY
+        // ========================================
+        const a11yToggle = document.getElementById('a11y-toggle');
+        let isSimplified = false;
+        
+        // Check for saved preference or system preference
+        function initAccessibility() {
+            // Check localStorage first
+            const savedPref = localStorage.getItem('simplified-view');
+            if (savedPref !== null) {
+                isSimplified = savedPref === 'true';
+            } else {
+                // Check system preference for reduced motion
+                isSimplified = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            }
+            
+            if (isSimplified) {
+                enableSimplifiedView();
             }
         }
-        setTimeout(createParticleBurst, 2500);
-
-        // LOADER
-        window.addEventListener('load', () => {
-            window.scrollTo(0, 0);
-            setTimeout(() => {
-                document.querySelector('.loader').classList.add('loaded');
-                document.querySelector('.cursor').classList.add('visible');
-                document.querySelector('.cursor-dot').classList.add('visible');
-            }, 3200);
-        });
-
-        // SAKURA PETALS
-        function createSakura() {
-            const container = document.getElementById('sakura-container');
-            for (let i = 0; i < 35; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'sakura';
-                petal.style.cssText = `left:${Math.random() * 100}%;animation-duration:${Math.random() * 10 + 15}s;animation-delay:${Math.random() * 20}s;width:${Math.random() * 10 + 8}px;height:${petal.style.width};opacity:${Math.random() * 0.3 + 0.2}`;
-                container.appendChild(petal);
+        
+        function enableSimplifiedView() {
+            isSimplified = true;
+            document.body.classList.add('simplified');
+            a11yToggle.setAttribute('aria-pressed', 'true');
+            a11yToggle.title = 'Switch to full visual experience';
+            localStorage.setItem('simplified-view', 'true');
+            
+            // Stop any running animations/intervals
+            stopAnimations();
+            
+            // Set static content immediately
+            setStaticContent();
+        }
+        
+        function disableSimplifiedView() {
+            isSimplified = false;
+            document.body.classList.remove('simplified');
+            a11yToggle.setAttribute('aria-pressed', 'false');
+            a11yToggle.title = 'Toggle simplified view for reduced motion and visual effects';
+            localStorage.setItem('simplified-view', 'false');
+            
+            // Restart animations (would need page reload for full effect)
+            location.reload();
+        }
+        
+        function stopAnimations() {
+            // Stop constellation animation
+            if (typeof drawConstellation === 'function') {
+                cancelAnimationFrame(constellationFrame);
             }
         }
-        createSakura();
-
-        // INTERACTIVE CONSTELLATION (EFFECT 1)
-        const canvas = document.getElementById('constellation-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mousePos = { x: 0, y: 0 };
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        function initConstellation() {
-            particles = [];
-            const count = Math.floor((window.innerWidth * window.innerHeight) / 15000);
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-                    radius: Math.random() * 2 + 1, originalRadius: Math.random() * 2 + 1
+        
+        function setStaticContent() {
+            // Set hero name immediately
+            const heroName = document.getElementById('hero-name');
+            if (heroName && heroName.children.length === 0) {
+                const name = 'SHIVANSH SINGH';
+                heroName.innerHTML = '';
+                name.split('').forEach((char) => {
+                    const span = document.createElement('span');
+                    if (char === ' ') {
+                        span.className = 'space';
+                    } else {
+                        span.className = 'char';
+                        span.textContent = char;
+                        span.style.opacity = '1';
+                        span.style.transform = 'none';
+                    }
+                    heroName.appendChild(span);
                 });
             }
-        }
-        initConstellation();
-        function drawConstellation() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy;
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                const distMouse = Math.hypot(p.x - mousePos.x, p.y - mousePos.y);
-                p.radius = distMouse < 200 ? p.originalRadius * (1 + (1 - distMouse / 200) * 2) : p.originalRadius;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(194,58,46,${0.3 + (p.radius - p.originalRadius) * 0.1})`;
-                ctx.fill();
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dist = Math.hypot(p.x - particles[j].x, p.y - particles[j].y);
-                    if (dist < 150) {
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(194,58,46,${0.1 * (1 - dist / 150)})`; ctx.lineWidth = 0.5; ctx.stroke();
-                    }
-                }
-                if (distMouse < 200) {
-                    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mousePos.x, mousePos.y);
-                    ctx.strokeStyle = `rgba(255,183,197,${0.4 * (1 - distMouse / 200)})`; ctx.lineWidth = 1; ctx.stroke();
-                }
+            
+            // Set hero description immediately
+            const heroDesc = document.getElementById('hero-desc');
+            if (heroDesc) {
+                heroDesc.textContent = "Investigating the delicate balance of trust between humans and intelligent systems at LUT University, Finland.";
+                heroDesc.style.opacity = '1';
+                heroDesc.style.transform = 'none';
+            }
+            
+            // Make all reveal elements visible
+            document.querySelectorAll('.reveal').forEach(el => {
+                el.classList.add('reveal-active');
             });
-            requestAnimationFrame(drawConstellation);
-        }
-        drawConstellation();
-        document.addEventListener('mousemove', e => { mousePos.x = e.clientX; mousePos.y = e.clientY; });
-
-        // INK PARTICLES
-        function createInkParticles() {
-            const container = document.getElementById('ink-particles');
-            for (let i = 0; i < 20; i++) {
-                const p = document.createElement('div');
-                p.className = 'ink-particle';
-                p.style.cssText = `left:${Math.random() * 100}%;width:${Math.random() * 4 + 2}px;height:${p.style.width};animation-duration:${Math.random() * 15 + 20}s;animation-delay:${Math.random() * 15}s`;
-                container.appendChild(p);
+            
+            // Hide loader immediately
+            const loader = document.querySelector('.loader');
+            if (loader) {
+                loader.style.display = 'none';
             }
         }
-        createInkParticles();
-
-        // HERO NAME
-        const heroName = document.getElementById('hero-name');
-        const name = 'SHIVANSH SINGH';
-        setTimeout(() => {
-            name.split('').forEach((char, i) => {
-                const span = document.createElement('span');
-                if (char === ' ') span.className = 'space';
-                else { span.className = 'char'; span.textContent = char; span.style.animationDelay = `${3.5 + i * 0.08}s`; }
-                heroName.appendChild(span);
-            });
-        }, 100);
-
-        // TYPEWRITER 
-        const heroDesc = document.getElementById('hero-desc');
-        const descText = "Investigating the delicate balance of trust between humans and intelligent systems at LUT University, Finland.";
-        let descIndex = 0;
-        function typeWriter() {
-            if (descIndex < descText.length) {
-                heroDesc.innerHTML = descText.substring(0, descIndex + 1) + '<span class="typewriter-cursor"></span>';
-                descIndex++;
-                setTimeout(typeWriter, 30);
-            } else heroDesc.innerHTML = descText;
-        }
-        setTimeout(typeWriter, 4600);
-
-        // CURSOR
-        const cursor = document.querySelector('.cursor');
-        const cursorDot = document.querySelector('.cursor-dot');
-        let cursorMouseX = 0, cursorMouseY = 0, cursorX = 0, cursorY = 0;
-        document.addEventListener('mousemove', e => {
-            cursorMouseX = e.clientX; cursorMouseY = e.clientY;
-            cursorDot.style.left = cursorMouseX + 'px'; cursorDot.style.top = cursorMouseY + 'px';
-        });
-        function animateCursor() {
-            cursorX += (cursorMouseX - cursorX) * 0.1; cursorY += (cursorMouseY - cursorY) * 0.1;
-            cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // CURSOR TRAIL
-        const trailContainer = document.getElementById('cursor-trail-container');
-        const trails = [];
-        for (let i = 0; i < 12; i++) {
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.cssText = `width:${8 - i * 0.5}px;height:${8 - i * 0.5}px`;
-            trailContainer.appendChild(trail);
-            trails.push({ el: trail, x: 0, y: 0 });
-        }
-        let trailMouseX = 0, trailMouseY = 0;
-        document.addEventListener('mousemove', e => { trailMouseX = e.clientX; trailMouseY = e.clientY; });
-        function animateTrail() {
-            let x = trailMouseX, y = trailMouseY;
-            trails.forEach((trail, i) => {
-                trail.x += (x - trail.x) * (0.3 - i * 0.02); trail.y += (y - trail.y) * (0.3 - i * 0.02);
-                trail.el.style.cssText += `;left:${trail.x}px;top:${trail.y}px;opacity:${(1 - i / 12) * 0.5}`;
-                x = trail.x; y = trail.y;
-            });
-            requestAnimationFrame(animateTrail);
-        }
-        animateTrail();
-
-        // CLICK RIPPLE
-        document.addEventListener('click', e => {
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;transform:translate(-50%,-50%)`;
-            document.body.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-        });
-
-        // HOVER EFFECTS
-        document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
-            el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); cursorDot.classList.add('hover'); });
-            el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); cursorDot.classList.remove('hover'); });
-        });
-
-        // MAGNETIC NAV
-        document.querySelectorAll('[data-magnetic]').forEach(el => {
-            el.addEventListener('mousemove', e => {
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
-                el.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
-            });
-            el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0,0)'; });
-        });
-
-        // MOUSE PARTICLES
-        const mouseParticlesContainer = document.getElementById('mouse-particles');
-        const mouseParticles = [];
-        for (let i = 0; i < 50; i++) {
-            const p = document.createElement('div');
-            p.className = 'mouse-particle';
-            mouseParticlesContainer.appendChild(p);
-            mouseParticles.push({ el: p, x: 0, y: 0, vx: 0, vy: 0, life: 0 });
-        }
-        let lastMouseX = 0, lastMouseY = 0, particleIndex = 0;
-        document.addEventListener('mousemove', e => {
-            const dx = e.clientX - lastMouseX, dy = e.clientY - lastMouseY;
-            if (Math.sqrt(dx * dx + dy * dy) > 5) {
-                const p = mouseParticles[particleIndex];
-                p.x = e.clientX; p.y = e.clientY;
-                p.vx = (Math.random() - 0.5) * 3; p.vy = (Math.random() - 0.5) * 3;
-                p.life = 1;
-                p.el.style.background = Math.random() > 0.5 ? 'var(--sakura-dark)' : 'var(--accent)';
-                particleIndex = (particleIndex + 1) % 50;
+        
+        a11yToggle.addEventListener('click', () => {
+            if (isSimplified) {
+                disableSimplifiedView();
+            } else {
+                enableSimplifiedView();
             }
-            lastMouseX = e.clientX; lastMouseY = e.clientY;
         });
-        function animateMouseParticles() {
-            mouseParticles.forEach(p => {
-                if (p.life > 0) {
-                    p.x += p.vx; p.y += p.vy; p.life -= 0.02;
-                    p.el.style.cssText = `left:${p.x}px;top:${p.y}px;opacity:${p.life};transform:translate(-50%,-50%) scale(${p.life})`;
-                }
-            });
-            requestAnimationFrame(animateMouseParticles);
-        }
-        animateMouseParticles();
-
-        // TEXT SCRAMBLE
-        function scrambleText(el) {
-            const original = el.getAttribute('data-text') || el.textContent;
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let iterations = 0;
-            const interval = setInterval(() => {
-                el.textContent = original.split('').map((c, i) => i < iterations ? original[i] : chars[Math.floor(Math.random() * chars.length)]).join('');
-                iterations += 1/3;
-                if (iterations >= original.length) { clearInterval(interval); el.textContent = original; }
-            }, 30);
-        }
-
-        // SCROLL REVEAL
-        const revealObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal-active');
-                    const scrambleEl = entry.target.querySelector('.scramble-text');
-                    if (scrambleEl && !scrambleEl.dataset.scrambled) {
-                        scrambleEl.dataset.scrambled = 'true';
-                        setTimeout(() => scrambleText(scrambleEl), 400);
-                    }
+        
+        // Keyboard support
+        a11yToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                a11yToggle.click();
+            }
+        });
+        
+        // Initialize on load
+        initAccessibility();
+        
+        // Listen for system preference changes
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+            if (localStorage.getItem('simplified-view') === null) {
+                if (e.matches) {
+                    enableSimplifiedView();
                 } else {
-                    entry.target.classList.remove('reveal-active');
-                    const scrambleEl = entry.target.querySelector('.scramble-text');
-                    if (scrambleEl) scrambleEl.dataset.scrambled = '';
+                    disableSimplifiedView();
+                }
+            }
+        });
+        
+        // ========================================
+        // ORIGINAL SCRIPTS (only run if not simplified)
+        // ========================================
+        
+        let constellationFrame;
+        
+        if (!isSimplified) {
+            // LOADER TEXT SCRAMBLE
+            const loaderKanji = document.getElementById('loader-kanji');
+            const originalKanji = '信頼';
+            const scrambleChars = '信頼道心夢力光風雲月星花雨火水木金土天地山川';
+            function scrambleLoaderText() {
+                let iterations = 0;
+                const interval = setInterval(() => {
+                    loaderKanji.innerHTML = originalKanji.split('').map((char, index) => {
+                        if (iterations > 10 + index * 2) return `<span class="char">${char}</span>`;
+                        return `<span class="char">${scrambleChars[Math.floor(Math.random() * scrambleChars.length)]}</span>`;
+                    }).join('');
+                    if (++iterations > 15) clearInterval(interval);
+                }, 100);
+            }
+            setTimeout(scrambleLoaderText, 1500);
+
+            // PARTICLE BURST
+            function createParticleBurst() {
+                const container = document.getElementById('particle-burst');
+                const style = document.createElement('style');
+                style.textContent = `@keyframes burstOut{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1);opacity:0}}`;
+                document.head.appendChild(style);
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'burst-particle';
+                    const angle = (i / 30) * Math.PI * 2;
+                    const distance = 80 + Math.random() * 60;
+                    particle.style.cssText = `animation:burstOut ${0.8 + Math.random() * 0.4}s cubic-bezier(.34,1.56,.64,1) forwards;--tx:${Math.cos(angle) * distance}px;--ty:${Math.sin(angle) * distance}px;background:${Math.random() > 0.5 ? 'var(--accent)' : 'var(--sakura-dark)'}`;
+                    container.appendChild(particle);
+                }
+            }
+            setTimeout(createParticleBurst, 2500);
+
+            // LOADER
+            window.addEventListener('load', () => {
+                window.scrollTo(0, 0);
+                setTimeout(() => {
+                    document.querySelector('.loader').classList.add('loaded');
+                    document.querySelector('.cursor').classList.add('visible');
+                    document.querySelector('.cursor-dot').classList.add('visible');
+                }, 3200);
+            });
+
+            // SAKURA PETALS
+            function createSakura() {
+                const container = document.getElementById('sakura-container');
+                for (let i = 0; i < 35; i++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'sakura';
+                    petal.style.cssText = `left:${Math.random() * 100}%;animation-duration:${Math.random() * 10 + 15}s;animation-delay:${Math.random() * 20}s;width:${Math.random() * 10 + 8}px;height:${petal.style.width};opacity:${Math.random() * 0.3 + 0.2}`;
+                    container.appendChild(petal);
+                }
+            }
+            createSakura();
+
+            // INTERACTIVE CONSTELLATION (EFFECT 1)
+            const canvas = document.getElementById('constellation-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mousePos = { x: 0, y: 0 };
+            function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            function initConstellation() {
+                particles = [];
+                const count = Math.floor((window.innerWidth * window.innerHeight) / 15000);
+                for (let i = 0; i < count; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+                        radius: Math.random() * 2 + 1, originalRadius: Math.random() * 2 + 1
+                    });
+                }
+            }
+            initConstellation();
+            function drawConstellation() {
+                if (isSimplified) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, i) => {
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    const distMouse = Math.hypot(p.x - mousePos.x, p.y - mousePos.y);
+                    p.radius = distMouse < 200 ? p.originalRadius * (1 + (1 - distMouse / 200) * 2) : p.originalRadius;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(194,58,46,${0.3 + (p.radius - p.originalRadius) * 0.1})`;
+                    ctx.fill();
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dist = Math.hypot(p.x - particles[j].x, p.y - particles[j].y);
+                        if (dist < 150) {
+                            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(194,58,46,${0.1 * (1 - dist / 150)})`; ctx.lineWidth = 0.5; ctx.stroke();
+                        }
+                    }
+                    if (distMouse < 200) {
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mousePos.x, mousePos.y);
+                        ctx.strokeStyle = `rgba(255,183,197,${0.4 * (1 - distMouse / 200)})`; ctx.lineWidth = 1; ctx.stroke();
+                    }
+                });
+                constellationFrame = requestAnimationFrame(drawConstellation);
+            }
+            drawConstellation();
+            document.addEventListener('mousemove', e => { mousePos.x = e.clientX; mousePos.y = e.clientY; });
+
+            // INK PARTICLES
+            function createInkParticles() {
+                const container = document.getElementById('ink-particles');
+                for (let i = 0; i < 20; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'ink-particle';
+                    p.style.cssText = `left:${Math.random() * 100}%;width:${Math.random() * 4 + 2}px;height:${p.style.width};animation-duration:${Math.random() * 15 + 20}s;animation-delay:${Math.random() * 15}s`;
+                    container.appendChild(p);
+                }
+            }
+            createInkParticles();
+
+            // HERO NAME
+            const heroName = document.getElementById('hero-name');
+            const name = 'SHIVANSH SINGH';
+            setTimeout(() => {
+                name.split('').forEach((char, i) => {
+                    const span = document.createElement('span');
+                    if (char === ' ') span.className = 'space';
+                    else { span.className = 'char'; span.textContent = char; span.style.animationDelay = `${3.5 + i * 0.08}s`; }
+                    heroName.appendChild(span);
+                });
+            }, 100);
+
+            // TYPEWRITER 
+            const heroDesc = document.getElementById('hero-desc');
+            const descText = "Investigating the delicate balance of trust between humans and intelligent systems at LUT University, Finland.";
+            let descIndex = 0;
+            function typeWriter() {
+                if (descIndex < descText.length) {
+                    heroDesc.innerHTML = descText.substring(0, descIndex + 1) + '<span class="typewriter-cursor"></span>';
+                    descIndex++;
+                    setTimeout(typeWriter, 30);
+                } else heroDesc.innerHTML = descText;
+            }
+            setTimeout(typeWriter, 4600);
+
+            // CURSOR
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            let cursorMouseX = 0, cursorMouseY = 0, cursorX = 0, cursorY = 0;
+            document.addEventListener('mousemove', e => {
+                cursorMouseX = e.clientX; cursorMouseY = e.clientY;
+                cursorDot.style.left = cursorMouseX + 'px'; cursorDot.style.top = cursorMouseY + 'px';
+            });
+            function animateCursor() {
+                if (isSimplified) return;
+                cursorX += (cursorMouseX - cursorX) * 0.1; cursorY += (cursorMouseY - cursorY) * 0.1;
+                cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            // CURSOR TRAIL
+            const trailContainer = document.getElementById('cursor-trail-container');
+            const trails = [];
+            for (let i = 0; i < 12; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.cssText = `width:${8 - i * 0.5}px;height:${8 - i * 0.5}px`;
+                trailContainer.appendChild(trail);
+                trails.push({ el: trail, x: 0, y: 0 });
+            }
+            let trailMouseX = 0, trailMouseY = 0;
+            document.addEventListener('mousemove', e => { trailMouseX = e.clientX; trailMouseY = e.clientY; });
+            function animateTrail() {
+                if (isSimplified) return;
+                let x = trailMouseX, y = trailMouseY;
+                trails.forEach((trail, i) => {
+                    trail.x += (x - trail.x) * (0.3 - i * 0.02); trail.y += (y - trail.y) * (0.3 - i * 0.02);
+                    trail.el.style.cssText += `;left:${trail.x}px;top:${trail.y}px;opacity:${(1 - i / 12) * 0.5}`;
+                    x = trail.x; y = trail.y;
+                });
+                requestAnimationFrame(animateTrail);
+            }
+            animateTrail();
+
+            // CLICK RIPPLE
+            document.addEventListener('click', e => {
+                if (isSimplified) return;
+                const ripple = document.createElement('div');
+                ripple.className = 'click-ripple';
+                ripple.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;transform:translate(-50%,-50%)`;
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+
+            // HOVER EFFECTS
+            document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
+                el.addEventListener('mouseenter', () => { 
+                    if (isSimplified) return;
+                    cursor.classList.add('hover'); cursorDot.classList.add('hover'); 
+                });
+                el.addEventListener('mouseleave', () => { 
+                    cursor.classList.remove('hover'); cursorDot.classList.remove('hover'); 
+                });
+            });
+
+            // MAGNETIC NAV
+            document.querySelectorAll('[data-magnetic]').forEach(el => {
+                el.addEventListener('mousemove', e => {
+                    if (isSimplified) return;
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
+                    el.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
+                });
+                el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0,0)'; });
+            });
+
+            // MOUSE PARTICLES
+            const mouseParticlesContainer = document.getElementById('mouse-particles');
+            const mouseParticles = [];
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'mouse-particle';
+                mouseParticlesContainer.appendChild(p);
+                mouseParticles.push({ el: p, x: 0, y: 0, vx: 0, vy: 0, life: 0 });
+            }
+            let lastMouseX = 0, lastMouseY = 0, particleIndex = 0;
+            document.addEventListener('mousemove', e => {
+                if (isSimplified) return;
+                const dx = e.clientX - lastMouseX, dy = e.clientY - lastMouseY;
+                if (Math.sqrt(dx * dx + dy * dy) > 5) {
+                    const p = mouseParticles[particleIndex];
+                    p.x = e.clientX; p.y = e.clientY;
+                    p.vx = (Math.random() - 0.5) * 3; p.vy = (Math.random() - 0.5) * 3;
+                    p.life = 1;
+                    p.el.style.background = Math.random() > 0.5 ? 'var(--sakura-dark)' : 'var(--accent)';
+                    particleIndex = (particleIndex + 1) % 50;
+                }
+                lastMouseX = e.clientX; lastMouseY = e.clientY;
+            });
+            function animateMouseParticles() {
+                if (isSimplified) return;
+                mouseParticles.forEach(p => {
+                    if (p.life > 0) {
+                        p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+                        p.el.style.cssText = `left:${p.x}px;top:${p.y}px;opacity:${p.life};transform:translate(-50%,-50%) scale(${p.life})`;
+                    }
+                });
+                requestAnimationFrame(animateMouseParticles);
+            }
+            animateMouseParticles();
+
+            // TEXT SCRAMBLE
+            function scrambleText(el) {
+                if (isSimplified) return;
+                const original = el.getAttribute('data-text') || el.textContent;
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                let iterations = 0;
+                const interval = setInterval(() => {
+                    el.textContent = original.split('').map((c, i) => i < iterations ? original[i] : chars[Math.floor(Math.random() * chars.length)]).join('');
+                    iterations += 1/3;
+                    if (iterations >= original.length) { clearInterval(interval); el.textContent = original; }
+                }, 30);
+            }
+
+            // SCROLL REVEAL
+            const revealObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-active');
+                        const scrambleEl = entry.target.querySelector('.scramble-text');
+                        if (scrambleEl && !scrambleEl.dataset.scrambled && !isSimplified) {
+                            scrambleEl.dataset.scrambled = 'true';
+                            setTimeout(() => scrambleText(scrambleEl), 400);
+                        }
+                    } else {
+                        entry.target.classList.remove('reveal-active');
+                        const scrambleEl = entry.target.querySelector('.scramble-text');
+                        if (scrambleEl) scrambleEl.dataset.scrambled = '';
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -100px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            // PARALLAX
+            window.addEventListener('scroll', () => {
+                if (isSimplified) return;
+                const scrolled = window.pageYOffset;
+                const heroContent = document.querySelector('.hero-content');
+                const heroEnso = document.querySelector('.hero-enso');
+                if (scrolled < window.innerHeight) {
+                    const progress = scrolled / window.innerHeight;
+                    heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+                    heroContent.style.opacity = 1 - progress * 1.2;
+                    if (heroEnso) heroEnso.style.transform = `translate(-50%,-50%) rotate(${scrolled * 0.05}deg) scale(${1 + progress * 0.2})`;
                 }
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -100px 0px' });
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // SMOOTH SCROLL
+            // MAGNETIC LETTERS
+            document.querySelectorAll('.hero-name .char').forEach(char => {
+                char.addEventListener('mousemove', e => {
+                    if (isSimplified) return;
+                    const rect = char.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
+                    char.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
+                });
+                char.addEventListener('mouseleave', () => { char.style.transform = ''; });
+            });
+
+            // KANJI RIPPLE
+            const soundStyle = document.createElement('style');
+            soundStyle.textContent = `@keyframes soundRipple{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(10);opacity:0}}`;
+            document.head.appendChild(soundStyle);
+            document.querySelectorAll('.hero-kanji-char').forEach(char => {
+                char.addEventListener('mouseenter', () => {
+                    if (isSimplified) return;
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `position:fixed;left:${char.getBoundingClientRect().left + char.offsetWidth/2}px;top:${char.getBoundingClientRect().top + char.offsetHeight/2}px;width:10px;height:10px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;animation:soundRipple .8s ease-out forwards;z-index:1000`;
+                    document.body.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 800);
+                });
+            });
+        }
+        
+        // SMOOTH SCROLL (always active)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-
-        // PARALLAX
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const heroContent = document.querySelector('.hero-content');
-            const heroEnso = document.querySelector('.hero-enso');
-            if (scrolled < window.innerHeight) {
-                const progress = scrolled / window.innerHeight;
-                heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
-                heroContent.style.opacity = 1 - progress * 1.2;
-                if (heroEnso) heroEnso.style.transform = `translate(-50%,-50%) rotate(${scrolled * 0.05}deg) scale(${1 + progress * 0.2})`;
-            }
-        });
-
-        // MAGNETIC LETTERS
-        document.querySelectorAll('.hero-name .char').forEach(char => {
-            char.addEventListener('mousemove', e => {
-                const rect = char.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
-                char.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
-            });
-            char.addEventListener('mouseleave', () => { char.style.transform = ''; });
-        });
-
-        // KANJI RIPPLE
-        const soundStyle = document.createElement('style');
-        soundStyle.textContent = `@keyframes soundRipple{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(10);opacity:0}}`;
-        document.head.appendChild(soundStyle);
-        document.querySelectorAll('.hero-kanji-char').forEach(char => {
-            char.addEventListener('mouseenter', () => {
-                const ripple = document.createElement('div');
-                ripple.style.cssText = `position:fixed;left:${char.getBoundingClientRect().left + char.offsetWidth/2}px;top:${char.getBoundingClientRect().top + char.offsetHeight/2}px;width:10px;height:10px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;animation:soundRipple .8s ease-out forwards;z-index:1000`;
-                document.body.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 800);
+                if (target) target.scrollIntoView({ behavior: isSimplified ? 'auto' : 'smooth', block: 'start' });
             });
         });
     </script>
